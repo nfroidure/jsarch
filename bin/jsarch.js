@@ -47,12 +47,42 @@ program
 $.run([
   'log', 'jsArch',
 ])
-.then(({ log, jsArch }) =>
-  jsArch({ patterns: program.args, cwd: process.cwd(), base: program.base })
+.then(({ log, jsArch }) => {
+  if(process.env.MERMAID_RUN) {
+    const JSARCH_REG_EXP = /^jsArch$/;
+    const CONFIG_REG_EXP = /^([A-Z0-9_]+)$/;
+    const MERMAID_GRAPH_CONFIG = {
+      classes: {
+        jsarch: 'fill:#e7cdd2,stroke:#ebd4cb,stroke-width:1px;',
+        config: 'fill:#d4cdcc,stroke:#ebd4cb,stroke-width:1px;',
+        others: 'fill:#ebd4cb,stroke:#000,stroke-width:1px;',
+      },
+      styles: [{
+        pattern: JSARCH_REG_EXP,
+        className: 'jsarch',
+      }, {
+        pattern: CONFIG_REG_EXP,
+        className: 'config',
+      }, {
+        pattern: /^(.+)$/,
+        className: 'others',
+      }],
+      shapes: [{
+        pattern: JSARCH_REG_EXP,
+        template: '$0(($0))',
+      }, {
+        pattern: CONFIG_REG_EXP,
+        template: '$0{$0}',
+      }],
+    };
+    process.stdout.write($.toMermaidGraph(MERMAID_GRAPH_CONFIG));
+    process.exit(0);
+  }
+  return jsArch({ patterns: program.args, cwd: process.cwd(), base: program.base })
   .then((content) => {
     process.stdout.write(content);
-  })
-)
+  });
+})
 .catch((err) => {
   console.error(err); // eslint-disable-line
   process.exit(1);

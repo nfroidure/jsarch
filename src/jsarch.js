@@ -29,7 +29,7 @@ By default, links to the architecture notes right in the code
 To override it, use the `base` option.
 
 */
-const BASE = './blob/master';
+const BASE = '.';
 
 module.exports = initJSArch;
 
@@ -42,6 +42,8 @@ This service needs some other services. To be able to mock and
  interchangethem, we use
  [Knifecycle](https://github.com/nfroidure/knifecycle) for its
  dependency injection and inversion of control feature.
+
+![Dependencies Graph](./DEPENDENCIES.mmd.png)
 */
 
 /**
