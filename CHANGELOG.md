@@ -1,3 +1,13 @@
+<a name="1.1.1"></a>
+## [1.1.1](https://github.com/nfroidure/jsarch/compare/v1.1.0...v1.1.1) (2017-03-11)
+
+
+### Bug Fixes
+
+* **docs:** Fix the architecture file output ([29f994d](https://github.com/nfroidure/jsarch/commit/29f994d))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/nfroidure/jsarch/compare/v1.0.0...v1.1.0) (2017-03-11)
 
