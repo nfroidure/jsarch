@@ -1,3 +1,13 @@
+<a name="1.1.3"></a>
+## [1.1.3](https://github.com/nfroidure/jsarch/compare/v1.1.2...v1.1.3) (2017-03-14)
+
+
+### Bug Fixes
+
+* **dependencies:** Fix forgotten dependency ([18fc72a](https://github.com/nfroidure/jsarch/commit/18fc72a))
+
+
+
 <a name="1.1.2"></a>
 ## [1.1.2](https://github.com/nfroidure/jsarch/compare/v1.1.1...v1.1.2) (2017-03-14)
 
