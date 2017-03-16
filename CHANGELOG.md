@@ -1,3 +1,13 @@
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/nfroidure/jsarch/compare/v1.1.3...v1.2.0) (2017-03-16)
+
+
+### Features
+
+* **indent:** Take care of indentation ([063ffdc](https://github.com/nfroidure/jsarch/commit/063ffdc)), closes [#1](https://github.com/nfroidure/jsarch/issues/1)
+
+
+
 <a name="1.1.3"></a>
 ## [1.1.3](https://github.com/nfroidure/jsarch/compare/v1.1.2...v1.1.3) (2017-03-14)
 
