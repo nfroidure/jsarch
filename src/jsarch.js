@@ -107,7 +107,10 @@ function jsArch({
       content + eol + eol +
       titleLevel + architectureNote.num.split('.').map(() => '#').join('') +
       ' ' + architectureNote.title + eol + eol +
-      architectureNote.content + eol + eol +
+      architectureNote.content.replace(
+        new RegExp('([\r\n]+)[ \t]{' + architectureNote.loc.indent + '}', 'g'),
+        '$1'
+      ) + eol + eol +
       '[See in context](' +
         base + '/' + path.relative(cwd, architectureNote.filePath) +
         '#L' + architectureNote.loc.start.line + '-L' + architectureNote.loc.end.line +

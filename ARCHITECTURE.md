@@ -34,7 +34,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L150-L160)
+[See in context](./src/jsarch.js#L153-L163)
 
 
 
@@ -51,7 +51,7 @@ A sample tree structure could be:
 - 2
 - 3
 
-[See in context](./src/jsarch.js#L228-L241)
+[See in context](./src/jsarch.js#L231-L244)
 
 
 

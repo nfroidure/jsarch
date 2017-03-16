@@ -110,6 +110,54 @@ Some content !
     );
   });
 
+  it.only('with some indented architecture notes in a file', () => {
+    initJSArch($);
+
+    globStub.returns(Promise.resolve([
+      '/home/me/project/kikoo.js',
+    ]));
+
+    readFileAsyncStub.returns(Promise.resolve(`
+
+    /* Architecture Note #1: Title
+
+    Some content !
+    Nice!
+    */
+
+console.log('test');
+
+    `));
+
+    return $.run(['jsArch']).then(({ jsArch }) =>
+      jsArch({
+        patterns: ['**/*.js'],
+        base: './blob/master',
+        cwd: '/home/me/project',
+      })
+      .then((content) => {
+        assert.deepEqual(readFileAsyncStub.args, [[
+          '/home/me/project/kikoo.js',
+          'utf-8',
+        ]]);
+        assert.equal(content,
+`${JSARCH_PREFIX}# Architecture Notes
+
+
+
+## Title
+
+Some content !
+Nice!
+
+[See in context](./blob/master/kikoo.js#L3-L7)
+
+`
+        );
+      })
+    );
+  });
+
   it('with architecture notes in several files', () => {
     initJSArch($);
 
