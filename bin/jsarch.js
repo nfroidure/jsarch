@@ -41,7 +41,7 @@ initJSArch($);
 
 program
   .version(packageConf.version)
-  .option('-b, --base', 'Base for links')
+  .option('-b, --base [value]', 'Base for links')
   .parse(process.argv);
 
 $.run([
