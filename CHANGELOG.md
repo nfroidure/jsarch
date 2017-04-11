@@ -1,3 +1,14 @@
+<a name="1.2.1"></a>
+## [1.2.1](https://github.com/nfroidure/jsarch/compare/v1.2.0...v1.2.1) (2017-04-11)
+
+
+### Bug Fixes
+
+* **cli:** Fix the base CLI option ([0e93178](https://github.com/nfroidure/jsarch/commit/0e93178))
+* **ordering:** Fix Architecture notes ordering and add tests for it ([caa0839](https://github.com/nfroidure/jsarch/commit/caa0839))
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/nfroidure/jsarch/compare/v1.1.3...v1.2.0) (2017-03-16)
 
