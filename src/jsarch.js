@@ -4,6 +4,8 @@ const YError = require('yerror');
 const path = require('path');
 const recast = require('recast');
 const types = require('ast-types');
+const { compareNotes } = require('./compareNotes');
+
 const ARCHITECTURE_NOTE_REGEXP =
   /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n$]*)/;
 const SHEBANG_REGEXP = /#! (\/\w+)+ node/;
@@ -101,7 +103,7 @@ function jsArch({
   .then(_linearize)
   .then(architectureNotes =>
     architectureNotes
-    .sort(_compareArchitectureNotes)
+    .sort(compareNotes)
     .reduce(
       (content, architectureNote) =>
       content + eol + eol +
@@ -226,42 +228,4 @@ function _linearize(bulks) {
       array.concat(arrayBulk),
     []
   );
-}
-
-/* Architecture Note #1.2: Ordering
-
-To order architecture notes in a meaningful way we
- use title hierarchy like we used too at school with
- argumentative texts ;).
-
-A sample tree structure could be:
-- 1
-- 1.1
-- 1.2
-- 2
-- 3
-
-*/
-
-function _compareArchitectureNotes(a, b) {
-  const aTitleLevels = a.num.split('.').map(n => parseInt(n, 10));
-  const bTitleLevels = b.num.split('.').map(n => parseInt(n, 10));
-  let result = 0;
-
-  result = aTitleLevels.reduce((curOrder, curALevel, index) => {
-    if(0 !== curOrder) {
-      return curOrder;
-    }
-    if('undefined' === typeof bTitleLevels[index]) {
-      return 1;
-    }
-    if(curALevel > bTitleLevels[index]) {
-      return 1;
-    }
-    if(curALevel < bTitleLevels[index]) {
-      return -1;
-    }
-    return 0;
-  }, result);
-  return result;
 }

@@ -110,7 +110,7 @@ Some content !
     );
   });
 
-  it.only('with some indented architecture notes in a file', () => {
+  it('with some indented architecture notes in a file', () => {
     initJSArch($);
 
     globStub.returns(Promise.resolve([
