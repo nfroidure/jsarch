@@ -2,7 +2,16 @@
 
 const YError = require('yerror');
 const path = require('path');
-const recast = require('recast');
+const espree = require('espree', {
+  attachComment: true,
+  ecmaVersion: 8,
+  ecmaFeatures: {
+    jsx: false,
+    globalReturn: false,
+    impliedStrict: false,
+    experimentalObjectRestSpread: true,
+  },
+});
 const types = require('ast-types');
 const { compareNotes } = require('./compareNotes');
 
@@ -110,7 +119,9 @@ function jsArch({
       titleLevel + architectureNote.num.split('.').map(() => '#').join('') +
       ' ' + architectureNote.title + eol + eol +
       architectureNote.content.replace(
-        new RegExp('([\r\n]+)[ \t]{' + architectureNote.loc.indent + '}', 'g'),
+        new RegExp('([\r\n]+)[ \t]{' +
+          architectureNote.loc.start.column +
+        '}', 'g'),
         '$1'
       ) + eol + eol +
       '[See in context](' +
@@ -183,7 +194,19 @@ function _extractArchitectureNotes({ fs, log }, filePath) {
     throw YError.wrap(err, 'E_FILE_FAILURE', filePath);
   })
   .then((content) => {
-    const ast = recast.parse(content);
+    const ast = espree.parse(content, {
+      attachComment: true,
+      loc: true,
+      range: true,
+      ecmaVersion: 8,
+      ecmaFeatures: {
+        jsx: false,
+        sourceType: 'module',
+        globalReturn: false,
+        impliedStrict: false,
+        experimentalObjectRestSpread: true,
+      },
+    });
     const architectureNotes = [];
 
     types.visit(ast, {
