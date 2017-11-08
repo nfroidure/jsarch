@@ -1,3 +1,13 @@
+<a name="1.2.3"></a>
+## [1.2.3](https://github.com/nfroidure/jsarch/compare/v1.2.2...v1.2.3) (2017-11-08)
+
+
+### Bug Fixes
+
+* **Parser:** Fix parser source type configuration ([6e3e816](https://github.com/nfroidure/jsarch/commit/6e3e816))
+
+
+
 <a name="1.2.2"></a>
 ## [1.2.2](https://github.com/nfroidure/jsarch/compare/v1.2.1...v1.2.2) (2017-11-08)
 
