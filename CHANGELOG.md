@@ -1,3 +1,13 @@
+<a name="1.2.2"></a>
+## [1.2.2](https://github.com/nfroidure/jsarch/compare/v1.2.1...v1.2.2) (2017-11-08)
+
+
+### Bug Fixes
+
+* **Parser:** From recast to espree ([afc9015](https://github.com/nfroidure/jsarch/commit/afc9015)), closes [#7](https://github.com/nfroidure/jsarch/issues/7)
+
+
+
 <a name="1.2.1"></a>
 ## [1.2.1](https://github.com/nfroidure/jsarch/compare/v1.2.0...v1.2.1) (2017-04-11)
 
