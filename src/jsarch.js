@@ -199,9 +199,9 @@ function _extractArchitectureNotes({ fs, log }, filePath) {
       loc: true,
       range: true,
       ecmaVersion: 8,
+      sourceType: 'module',
       ecmaFeatures: {
         jsx: false,
-        sourceType: 'module',
         globalReturn: false,
         impliedStrict: false,
         experimentalObjectRestSpread: true,
