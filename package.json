@@ -43,7 +43,7 @@
     "jsarch": "bin/jsarch.js"
   },
   "dependencies": {
-    "ast-types": "^0.9.3",
+    "ast-types": "^0.9.14",
     "bluebird": "^3.4.7",
     "commander": "^2.9.0",
     "debug": "2.6.1",
