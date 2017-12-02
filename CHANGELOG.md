@@ -1,3 +1,8 @@
+<a name="1.2.5"></a>
+## [1.2.5](https://github.com/nfroidure/jsarch/compare/v1.2.4...v1.2.5) (2017-12-02)
+
+
+
 <a name="1.2.4"></a>
 ## [1.2.4](https://github.com/nfroidure/jsarch/compare/v1.2.3...v1.2.4) (2017-12-02)
 
