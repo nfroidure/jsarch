@@ -77,18 +77,3 @@ By default, links to the architecture notes right in the code
 To override it, use the `base` option.
 
 [See in context](./src/jsarch.js#L41-L49)
-
-
-
-## CLI
-
-The JSArch CLI tool basically wraps the jsArch service
-to make it usable from the CLI.
-
-To see its options, run:
-```
-jsarch -h
-```
-
-[See in context](./bin/jsarch.js#L3-L12)
-
