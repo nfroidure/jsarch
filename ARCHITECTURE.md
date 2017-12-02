@@ -13,7 +13,7 @@ JSArch is basically a service that exposes a function allowing
  to extract and output architecture notes from the code.
 
 This service needs some other services. To be able to mock and
- interchangethem, we use
+ interchange them, we use
  [Knifecycle](https://github.com/nfroidure/knifecycle) for its
  dependency injection and inversion of control feature.
 
@@ -77,3 +77,4 @@ By default, links to the architecture notes right in the code
 To override it, use the `base` option.
 
 [See in context](./src/jsarch.js#L41-L49)
+
