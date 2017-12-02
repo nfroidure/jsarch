@@ -32,7 +32,6 @@
     "jsarch": "node bin/jsarch.js",
     "lint": "eslint src/*.js",
     "metapak": "metapak",
-    "postinstall": "npm run metapak --silent",
     "precz": "npm run graph && npm run architecture",
     "preversion": "npm t && npm run lint && npm run metapak -s",
     "test": "mocha src/*.mocha.js",
