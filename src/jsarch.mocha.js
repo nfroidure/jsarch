@@ -34,31 +34,28 @@ describe('jsArch service', () => {
   it('with no architecture notes', () => {
     initJSArch($);
 
-    globStub.returns(Promise.resolve([
-      '/home/me/project/lulz.js',
-      '/home/me/project/kikoo.js',
-    ]));
+    globStub.returns(
+      Promise.resolve(['/home/me/project/lulz.js', '/home/me/project/kikoo.js'])
+    );
 
-    readFileAsyncStub.returns(Promise.resolve(`
+    readFileAsyncStub.returns(
+      Promise.resolve(`
 
 console.log('test');
 
-    `));
+    `)
+    );
 
     return $.run(['jsArch']).then(({ jsArch }) =>
       jsArch({
         patterns: ['**/*.js'],
         base: './blob/master',
         cwd: '/home/me/project',
-      })
-      .then((content) => {
-        assert.deepEqual(readFileAsyncStub.args, [[
-          '/home/me/project/lulz.js',
-          'utf-8',
-        ], [
-          '/home/me/project/kikoo.js',
-          'utf-8',
-        ]]);
+      }).then(content => {
+        assert.deepEqual(readFileAsyncStub.args, [
+          ['/home/me/project/lulz.js', 'utf-8'],
+          ['/home/me/project/kikoo.js', 'utf-8'],
+        ]);
         assert.equal(content, '');
       })
     );
@@ -67,11 +64,10 @@ console.log('test');
   it('with some architecture notes in a file', () => {
     initJSArch($);
 
-    globStub.returns(Promise.resolve([
-      '/home/me/project/kikoo.js',
-    ]));
+    globStub.returns(Promise.resolve(['/home/me/project/kikoo.js']));
 
-    readFileAsyncStub.returns(Promise.resolve(`
+    readFileAsyncStub.returns(
+      Promise.resolve(`
 
 /* Architecture Note #1: Title
 
@@ -80,21 +76,21 @@ Some content !
 
 console.log('test');
 
-    `));
+    `)
+    );
 
     return $.run(['jsArch']).then(({ jsArch }) =>
       jsArch({
         patterns: ['**/*.js'],
         base: './blob/master',
         cwd: '/home/me/project',
-      })
-      .then((content) => {
-        assert.deepEqual(readFileAsyncStub.args, [[
-          '/home/me/project/kikoo.js',
-          'utf-8',
-        ]]);
-        assert.equal(content,
-`${JSARCH_PREFIX}# Architecture Notes
+      }).then(content => {
+        assert.deepEqual(readFileAsyncStub.args, [
+          ['/home/me/project/kikoo.js', 'utf-8'],
+        ]);
+        assert.equal(
+          content,
+          `${JSARCH_PREFIX}# Architecture Notes
 
 
 
@@ -113,11 +109,10 @@ Some content !
   it('with some indented architecture notes in a file', () => {
     initJSArch($);
 
-    globStub.returns(Promise.resolve([
-      '/home/me/project/kikoo.js',
-    ]));
+    globStub.returns(Promise.resolve(['/home/me/project/kikoo.js']));
 
-    readFileAsyncStub.returns(Promise.resolve(`
+    readFileAsyncStub.returns(
+      Promise.resolve(`
 
     /* Architecture Note #1: Title
 
@@ -127,21 +122,21 @@ Some content !
 
 console.log('test');
 
-    `));
+    `)
+    );
 
     return $.run(['jsArch']).then(({ jsArch }) =>
       jsArch({
         patterns: ['**/*.js'],
         base: './blob/master',
         cwd: '/home/me/project',
-      })
-      .then((content) => {
-        assert.deepEqual(readFileAsyncStub.args, [[
-          '/home/me/project/kikoo.js',
-          'utf-8',
-        ]]);
-        assert.equal(content,
-`${JSARCH_PREFIX}# Architecture Notes
+      }).then(content => {
+        assert.deepEqual(readFileAsyncStub.args, [
+          ['/home/me/project/kikoo.js', 'utf-8'],
+        ]);
+        assert.equal(
+          content,
+          `${JSARCH_PREFIX}# Architecture Notes
 
 
 
@@ -161,12 +156,12 @@ Nice!
   it('with architecture notes in several files', () => {
     initJSArch($);
 
-    globStub.returns(Promise.resolve([
-      '/home/me/project/lulz.js',
-      '/home/me/project/kikoo.js',
-    ]));
+    globStub.returns(
+      Promise.resolve(['/home/me/project/lulz.js', '/home/me/project/kikoo.js'])
+    );
 
-    readFileAsyncStub.onFirstCall().returns(Promise.resolve(`
+    readFileAsyncStub.onFirstCall().returns(
+      Promise.resolve(`
 /* Architecture Note #1.1: Title 1.1
 
 Some content !
@@ -178,9 +173,11 @@ console.log('test');
 Some content !
 */
 
-    `));
+    `)
+    );
 
-    readFileAsyncStub.onSecondCall().returns(Promise.resolve(`
+    readFileAsyncStub.onSecondCall().returns(
+      Promise.resolve(`
 /* Architecture Note #1.3: Title 1.3
 
 Some content !
@@ -192,24 +189,22 @@ console.log('test');
 Some content !
 */
 
-    `));
+    `)
+    );
 
     return $.run(['jsArch']).then(({ jsArch }) =>
       jsArch({
         patterns: ['**/*.js'],
         base: './blob/master',
         cwd: '/home/me/project',
-      })
-      .then((content) => {
-        assert.deepEqual(readFileAsyncStub.args, [[
-          '/home/me/project/lulz.js',
-          'utf-8',
-        ], [
-          '/home/me/project/kikoo.js',
-          'utf-8',
-        ]]);
-        assert.equal(content,
-`${JSARCH_PREFIX}# Architecture Notes
+      }).then(content => {
+        assert.deepEqual(readFileAsyncStub.args, [
+          ['/home/me/project/lulz.js', 'utf-8'],
+          ['/home/me/project/kikoo.js', 'utf-8'],
+        ]);
+        assert.equal(
+          content,
+          `${JSARCH_PREFIX}# Architecture Notes
 
 
 

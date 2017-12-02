@@ -19,7 +19,7 @@ This service needs some other services. To be able to mock and
 
 ![Dependencies Graph](./DEPENDENCIES.mmd.png)
 
-[See in context](./src/jsarch.js#L54-L65)
+[See in context](./src/jsarch.js#L53-L64)
 
 
 
@@ -34,7 +34,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L166-L176)
+[See in context](./src/jsarch.js#L184-L194)
 
 
 
@@ -51,7 +51,7 @@ A sample tree structure could be:
 - 2
 - 3
 
-[See in context](./src/compareNotes.js#L8-L21)
+[See in context](./src/compareNotes.js#L7-L20)
 
 
 
@@ -76,5 +76,5 @@ By default, links to the architecture notes right in the code
 
 To override it, use the `base` option.
 
-[See in context](./src/jsarch.js#L41-L49)
+[See in context](./src/jsarch.js#L40-L48)
 

@@ -4,7 +4,6 @@ module.exports = {
   compareNotes,
 };
 
-
 /* Architecture Note #1.2: Ordering
 
 To order architecture notes in a meaningful way we
@@ -25,18 +24,18 @@ function compareNotes(aNote, bNote) {
   const levelsDepth = Math.max(aNoteLevels.length, bNoteLevels.length);
   let result = 0;
 
-  result = (new Array(levelsDepth)).fill('').reduce((result, unused, index) => {
-    if(0 !== result) {
+  result = new Array(levelsDepth).fill('').reduce((result, unused, index) => {
+    if (0 !== result) {
       return result;
-    } else if('undefined' === typeof aNoteLevels[index]) {
+    } else if ('undefined' === typeof aNoteLevels[index]) {
       result = -1;
-    } else if('undefined' === typeof bNoteLevels[index]) {
+    } else if ('undefined' === typeof bNoteLevels[index]) {
       result = 1;
-    } else if(aNoteLevels[index] === bNoteLevels[index]) {
+    } else if (aNoteLevels[index] === bNoteLevels[index]) {
       result = 0;
-    } else if(aNoteLevels[index] < bNoteLevels[index]) {
+    } else if (aNoteLevels[index] < bNoteLevels[index]) {
       result = -1;
-    } else if(aNoteLevels[index] > bNoteLevels[index]) {
+    } else if (aNoteLevels[index] > bNoteLevels[index]) {
       result = 1;
     }
     return result;

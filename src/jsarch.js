@@ -1,5 +1,6 @@
 'use strict';
 
+const { inject } = require('knifecycle/dist/util');
 const YError = require('yerror');
 const path = require('path');
 const espree = require('espree', {
@@ -15,8 +16,7 @@ const espree = require('espree', {
 const types = require('ast-types');
 const { compareNotes } = require('./compareNotes');
 
-const ARCHITECTURE_NOTE_REGEXP =
-  /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n$]*)/;
+const ARCHITECTURE_NOTE_REGEXP = /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n$]*)/;
 const SHEBANG_REGEXP = /#! (\/\w+)+ node/;
 const EOL_REGEXP = /\n/g;
 const JSARCH_PREFIX = `<!--
@@ -36,7 +36,6 @@ If you wish to add the architecture notes in a README.md file
  as necessar to fit the title hierarchy of you README file.
 */
 const TITLE_LEVEL = '#';
-
 
 /* Architecture Note #1.4: Base
 
@@ -76,9 +75,10 @@ function initJSArch(
   name = 'jsArch',
   dependencies = ['EOL', 'glob', 'fs', 'log']
 ) {
-  $.service(name,
-    $.depends(dependencies,
-      services => Promise.resolve(jsArch.bind(null, services))
+  $.service(
+    name,
+    inject(dependencies, services =>
+      Promise.resolve(jsArch.bind(null, services))
     )
   );
 }
@@ -94,74 +94,92 @@ function initJSArch(
  * @param {Object}   options.patterns    Patterns to look files for (see node-glob)
  * @return {String}                 Computed architecture notes
  */
-function jsArch({
-  EOL, glob, fs, log,
-}, {
-  cwd, patterns, eol,
-  titleLevel = TITLE_LEVEL,
-  base = BASE,
-}) {
+function jsArch(
+  { EOL, glob, fs, log },
+  { cwd, patterns, eol, titleLevel = TITLE_LEVEL, base = BASE }
+) {
   eol = eol || EOL;
   return _computePatterns({ glob, log }, cwd, patterns)
-  .then(files => Promise.all(
-    files.map(_extractArchitectureNotes.bind(
-      null,
-      { fs, log }
-    ))
-  ))
-  .then(_linearize)
-  .then(architectureNotes =>
-    architectureNotes
-    .sort(compareNotes)
-    .reduce(
-      (content, architectureNote) =>
-      content + eol + eol +
-      titleLevel + architectureNote.num.split('.').map(() => '#').join('') +
-      ' ' + architectureNote.title + eol + eol +
-      architectureNote.content.replace(
-        new RegExp('([\r\n]+)[ \t]{' +
-          architectureNote.loc.start.column +
-        '}', 'g'),
-        '$1'
-      ) + eol + eol +
-      '[See in context](' +
-        base + '/' + path.relative(cwd, architectureNote.filePath) +
-        '#L' + architectureNote.loc.start.line + '-L' + architectureNote.loc.end.line +
-      ')' + eol + eol
-      , '')
-  )
-  .then((content) => {
-    if(content) {
-      return JSARCH_PREFIX.replace(EOL_REGEXP, eol) +
-        titleLevel + ' Architecture Notes' + eol + eol + content;
-    }
-    return content;
-  });
+    .then(files =>
+      Promise.all(files.map(_extractArchitectureNotes.bind(null, { fs, log })))
+    )
+    .then(_linearize)
+    .then(architectureNotes =>
+      architectureNotes.sort(compareNotes).reduce(
+        (content, architectureNote) =>
+          content +
+          eol +
+          eol +
+          titleLevel +
+          architectureNote.num
+            .split('.')
+            .map(() => '#')
+            .join('') +
+          ' ' +
+          architectureNote.title +
+          eol +
+          eol +
+          architectureNote.content.replace(
+            new RegExp(
+              '([\r\n]+)[ \t]{' + architectureNote.loc.start.column + '}',
+              'g'
+            ),
+            '$1'
+          ) +
+          eol +
+          eol +
+          '[See in context](' +
+          base +
+          '/' +
+          path.relative(cwd, architectureNote.filePath) +
+          '#L' +
+          architectureNote.loc.start.line +
+          '-L' +
+          architectureNote.loc.end.line +
+          ')' +
+          eol +
+          eol,
+        ''
+      )
+    )
+    .then(content => {
+      if (content) {
+        return (
+          JSARCH_PREFIX.replace(EOL_REGEXP, eol) +
+          titleLevel +
+          ' Architecture Notes' +
+          eol +
+          eol +
+          content
+        );
+      }
+      return content;
+    });
 }
 
 function _computePatterns({ glob, log }, cwd, patterns) {
-  return Promise.all(patterns.map((pattern) => {
-    log('debug', 'Processing pattern:', pattern);
-    return glob(pattern, {
-      cwd,
-      dot: true,
-      nodir: true,
-      absolute: true,
+  return Promise.all(
+    patterns.map(pattern => {
+      log('debug', 'Processing pattern:', pattern);
+      return glob(pattern, {
+        cwd,
+        dot: true,
+        nodir: true,
+        absolute: true,
+      })
+        .then(files => {
+          log('debug', 'Pattern sucessfully resolved', pattern);
+          log('debug', 'Files:', files);
+          return files;
+        })
+        .catch(err => {
+          log('error', 'Pattern failure:', pattern);
+          log('stack', 'Stack:', err.stack);
+          throw YError.wrap(err, 'E_PATTERN_FAILURE', pattern);
+        });
     })
-    .then((files) => {
-      log('debug', 'Pattern sucessfully resolved', pattern);
-      log('debug', 'Files:', files);
-      return files;
-    })
-    .catch((err) => {
-      log('error', 'Pattern failure:', pattern);
-      log('stack', 'Stack:', err.stack);
-      throw YError.wrap(err, 'E_PATTERN_FAILURE', pattern);
-    });
-  }))
-  .then(_linearize);
+  ).then(_linearize);
 }
-
 
 /* Architecture Note #1.1: Extraction
 
@@ -176,79 +194,76 @@ architecture notes. It should be structured like that:
 */
 function _extractArchitectureNotes({ fs, log }, filePath) {
   log('debug', 'Reading file at', filePath);
-  return fs.readFileAsync(filePath, 'utf-8')
-  .then((content) => {
-    log('debug', 'File sucessfully read', filePath);
-    return content;
-  })
-  .then(function _stripShebang(content) {
-    if(SHEBANG_REGEXP.test(content)) {
-      log('debug', 'Found a shebang, commenting it', filePath);
-      content = '// Shebang commented by jsarch: ' + content;
-    }
-    return content;
-  })
-  .catch((err) => {
-    log('error', 'File read failure:', filePath);
-    log('stack', 'Stack:', err.stack);
-    throw YError.wrap(err, 'E_FILE_FAILURE', filePath);
-  })
-  .then((content) => {
-    const ast = espree.parse(content, {
-      attachComment: true,
-      loc: true,
-      range: true,
-      ecmaVersion: 8,
-      sourceType: 'module',
-      ecmaFeatures: {
-        jsx: false,
-        globalReturn: false,
-        impliedStrict: false,
-        experimentalObjectRestSpread: true,
-      },
+  return fs
+    .readFileAsync(filePath, 'utf-8')
+    .then(content => {
+      log('debug', 'File sucessfully read', filePath);
+      return content;
+    })
+    .then(function _stripShebang(content) {
+      if (SHEBANG_REGEXP.test(content)) {
+        log('debug', 'Found a shebang, commenting it', filePath);
+        content = '// Shebang commented by jsarch: ' + content;
+      }
+      return content;
+    })
+    .catch(err => {
+      log('error', 'File read failure:', filePath);
+      log('stack', 'Stack:', err.stack);
+      throw YError.wrap(err, 'E_FILE_FAILURE', filePath);
+    })
+    .then(content => {
+      const ast = espree.parse(content, {
+        attachComment: true,
+        loc: true,
+        range: true,
+        ecmaVersion: 8,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: false,
+          globalReturn: false,
+          impliedStrict: false,
+          experimentalObjectRestSpread: true,
+        },
+      });
+      const architectureNotes = [];
+
+      types.visit(ast, {
+        visitComment: function(path) {
+          const comment = path.value.value;
+          const matches = ARCHITECTURE_NOTE_REGEXP.exec(comment);
+
+          if (matches) {
+            architectureNotes.push({
+              num: matches[1],
+              title: matches[2].trim(),
+              content: comment.substr(matches[0].length).trim(),
+              filePath: filePath,
+              loc: path.value.loc,
+            });
+          }
+          this.traverse(path);
+        },
+      });
+
+      return architectureNotes;
+    })
+    .then(architectureNotes => {
+      log('debug', 'File sucessfully processed', path);
+      log(
+        'debug',
+        'Architecture notes found:',
+        architectureNotes.map(a => a.title)
+      );
+      return architectureNotes;
+    })
+    .catch(err => {
+      log('error', 'File parse failure:', path);
+      log('stack', 'Stack:', err.stack);
+      throw YError.wrap(err, 'E_FILE_PARSE_FAILURE', path);
     });
-    const architectureNotes = [];
-
-    types.visit(ast, {
-      visitComment: function(path) {
-        const comment = path.value.value;
-        const matches = ARCHITECTURE_NOTE_REGEXP.exec(comment);
-
-        if(matches) {
-          architectureNotes.push({
-            num: matches[1],
-            title: matches[2].trim(),
-            content: comment.substr(matches[0].length).trim(),
-            filePath: filePath,
-            loc: path.value.loc,
-          });
-        }
-        this.traverse(path);
-      },
-    });
-
-    return architectureNotes;
-  })
-  .then((architectureNotes) => {
-    log('debug', 'File sucessfully processed', path);
-    log(
-      'debug',
-      'Architecture notes found:',
-      architectureNotes.map(a => a.title)
-    );
-    return architectureNotes;
-  })
-  .catch((err) => {
-    log('error', 'File parse failure:', path);
-    log('stack', 'Stack:', err.stack);
-    throw YError.wrap(err, 'E_FILE_PARSE_FAILURE', path);
-  });
 }
 
 function _linearize(bulks) {
-  return bulks.reduce(
-    (array, arrayBulk) =>
-      array.concat(arrayBulk),
-    []
-  );
+  return bulks.reduce((array, arrayBulk) => array.concat(arrayBulk), []);
 }
