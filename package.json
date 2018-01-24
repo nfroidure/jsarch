@@ -51,12 +51,12 @@
     "jsarch": "bin/jsarch.js"
   },
   "dependencies": {
-    "ast-types": "^0.9.14",
-    "bluebird": "^3.4.7",
-    "commander": "^2.9.0",
-    "debug": "2.6.1",
-    "espree": "^3.5.1",
-    "glob": "^7.1.1",
+    "ast-types": "^0.10.1",
+    "bluebird": "^3.5.1",
+    "commander": "^2.13.0",
+    "debug": "^3.1.0",
+    "espree": "^3.5.2",
+    "glob": "^7.1.2",
     "knifecycle": "^2.4.2",
     "yerror": "^2.1.0"
   },
@@ -73,7 +73,7 @@
     "istanbul": "^0.4.5",
     "jsarch": "^1.2.5",
     "jsdoc-to-markdown": "^3.0.2",
-    "mermaid": "^7.1.0",
+    "mermaid": "^7.1.2",
     "mermaid.cli": "^0.3.1",
     "metapak": "1.0.1",
     "metapak-nfroidure": "2.0.2",
