@@ -1,3 +1,13 @@
+<a name="1.2.7"></a>
+## [1.2.7](https://github.com/nfroidure/jsarch/compare/v1.2.6...v1.2.7) (2018-02-01)
+
+
+### Bug Fixes
+
+* **AST:** Fix AST traversal for experimental features ([000b2d5](https://github.com/nfroidure/jsarch/commit/000b2d5))
+
+
+
 <a name="1.2.6"></a>
 ## [1.2.6](https://github.com/nfroidure/jsarch/compare/v1.2.5...v1.2.6) (2017-12-02)
 
