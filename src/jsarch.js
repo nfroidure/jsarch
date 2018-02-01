@@ -14,7 +14,20 @@ const espree = require('espree', {
   },
 });
 const types = require('ast-types');
+const def = types.Type.def;
 const { compareNotes } = require('./compareNotes');
+
+// Temporary fix to make jsarch work
+// on codebases parsed with espree
+def('ExperimentalSpreadProperty')
+  .bases('Node')
+  .build('argument')
+  .field('argument', def('Expression'));
+def('ExperimentalRestProperty')
+  .bases('Node')
+  .build('argument')
+  .field('argument', def('Expression'));
+types.finalize();
 
 const ARCHITECTURE_NOTE_REGEXP = /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n$]*)/;
 const SHEBANG_REGEXP = /#! (\/\w+)+ node/;

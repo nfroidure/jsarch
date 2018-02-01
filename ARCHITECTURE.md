@@ -19,7 +19,7 @@ This service needs some other services. To be able to mock and
 
 ![Dependencies Graph](./DEPENDENCIES.mmd.png)
 
-[See in context](./src/jsarch.js#L53-L64)
+[See in context](./src/jsarch.js#L66-L77)
 
 
 
@@ -34,7 +34,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L184-L194)
+[See in context](./src/jsarch.js#L197-L207)
 
 
 
@@ -64,7 +64,7 @@ If you wish to add the architecture notes in a README.md file
  you will have to set the `titleLevel` option to as much `#`
  as necessar to fit the title hierarchy of you README file.
 
-[See in context](./src/jsarch.js#L29-L37)
+[See in context](./src/jsarch.js#L42-L50)
 
 
 
@@ -76,5 +76,5 @@ By default, links to the architecture notes right in the code
 
 To override it, use the `base` option.
 
-[See in context](./src/jsarch.js#L40-L48)
+[See in context](./src/jsarch.js#L53-L61)
 
