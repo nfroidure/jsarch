@@ -1,3 +1,13 @@
+<a name="1.3.0"></a>
+# [1.3.0](https://github.com/nfroidure/jsarch/compare/v1.2.7...v1.3.0) (2018-02-05)
+
+
+### Features
+
+* **jsarch.js:** switch from HTML comment to most compatible Markdown version ([b901e4b](https://github.com/nfroidure/jsarch/commit/b901e4b))
+
+
+
 <a name="1.2.7"></a>
 ## [1.2.7](https://github.com/nfroidure/jsarch/compare/v1.2.6...v1.2.7) (2018-02-01)
 
