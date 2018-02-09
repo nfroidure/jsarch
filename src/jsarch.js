@@ -16,7 +16,6 @@ const espree = require('espree', {
 const types = require('ast-types');
 const def = types.Type.def;
 const { compareNotes } = require('./compareNotes');
-const configuration = require('packagerc')('jsarch', { gitProvider: 'github' });
 
 // Temporary fix to make jsarch work
 // on codebases parsed with espree
@@ -87,7 +86,7 @@ This service needs some other services. To be able to mock and
 function initJSArch(
   $,
   name = 'jsArch',
-  dependencies = ['EOL', 'glob', 'fs', 'log']
+  dependencies = ['CONFIG', 'EOL', 'glob', 'fs', 'log']
 ) {
   $.service(
     name,
@@ -109,7 +108,7 @@ function initJSArch(
  * @return {String}                 Computed architecture notes
  */
 function jsArch(
-  { EOL, glob, fs, log },
+  { CONFIG, EOL, glob, fs, log },
   { cwd, patterns, eol, titleLevel = TITLE_LEVEL, base = BASE }
 ) {
   eol = eol || EOL;
@@ -127,7 +126,7 @@ function jsArch(
             architectureNote.loc.start.line +
             '-L' +
             architectureNote.loc.end.line;
-          if (configuration.gitProvider.toLowerCase() === 'bitbucket') {
+          if (CONFIG.gitProvider.toLowerCase() === 'bitbucket') {
             linesLink =
               '#' +
               path.basename(architectureNote.filePath) +

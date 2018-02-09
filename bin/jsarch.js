@@ -21,6 +21,7 @@ const path = require('path');
 const glob = require('glob');
 const program = require('commander');
 const Promise = require('bluebird');
+const packagerc = require('packagerc');
 
 const initJSArch = require('../src/jsarch');
 const packageConf = require(path.join(__dirname, '..', 'package.json'));
@@ -29,6 +30,7 @@ const $ = new Knifecycle();
 
 $.constant('fs', Promise.promisifyAll(fs));
 $.constant('EOL', os.EOL);
+$.constant('CONFIG', packagerc('jsarch', { gitProvider: 'github' }));
 $.constant('glob', Promise.promisify(glob));
 $.constant('log', (type, ...args) => {
   if('debug' === type || 'stack' === type) {

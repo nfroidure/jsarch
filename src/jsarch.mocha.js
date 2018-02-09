@@ -20,6 +20,7 @@ describe('jsArch service', () => {
   beforeEach(() => {
     $ = new Knifecycle();
     $.constant('EOL', '\n');
+    $.constant('CONFIG', { gitProvider: 'github' });
     $.constant('log', logStub);
     $.constant('glob', globStub);
     $.constant('fs', { readFileAsync: readFileAsyncStub });
@@ -99,6 +100,53 @@ console.log('test');
 Some content !
 
 [See in context](./blob/master/kikoo.js#L3-L6)
+
+`
+        );
+      })
+    );
+  });
+
+  it('with some architecture notes in a file and bitbucket links', () => {
+    $.constant('CONFIG', { gitProvider: 'bitbucket' });
+
+    initJSArch($);
+
+    globStub.returns(Promise.resolve(['/home/me/project/kikoo.js']));
+
+    readFileAsyncStub.returns(
+      Promise.resolve(`
+
+/* Architecture Note #1: Title
+
+Some content !
+*/
+
+console.log('test');
+
+    `)
+    );
+
+    return $.run(['jsArch']).then(({ jsArch }) =>
+      jsArch({
+        patterns: ['**/*.js'],
+        base: './blob/master',
+        cwd: '/home/me/project',
+      }).then(content => {
+        assert.deepEqual(readFileAsyncStub.args, [
+          ['/home/me/project/kikoo.js', 'utf-8'],
+        ]);
+        assert.equal(
+          content,
+          `${JSARCH_PREFIX}# Architecture Notes
+
+
+
+## Title
+
+Some content !
+
+[See in context](./blob/master/kikoo.js#kikoo.js-3:6)
 
 `
         );
