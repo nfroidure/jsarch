@@ -16,6 +16,7 @@ const espree = require('espree', {
 const types = require('ast-types');
 const def = types.Type.def;
 const { compareNotes } = require('./compareNotes');
+const configuration = require('packagerc')('jsarch', { gitProvider: 'github' });
 
 // Temporary fix to make jsarch work
 // on codebases parsed with espree
@@ -118,42 +119,55 @@ function jsArch(
     )
     .then(_linearize)
     .then(architectureNotes =>
-      architectureNotes.sort(compareNotes).reduce(
-        (content, architectureNote) =>
-          content +
-          eol +
-          eol +
-          titleLevel +
-          architectureNote.num
-            .split('.')
-            .map(() => '#')
-            .join('') +
-          ' ' +
-          architectureNote.title +
-          eol +
-          eol +
-          architectureNote.content.replace(
-            new RegExp(
-              '([\r\n]+)[ \t]{' + architectureNote.loc.start.column + '}',
-              'g'
-            ),
-            '$1'
-          ) +
-          eol +
-          eol +
-          '[See in context](' +
-          base +
-          '/' +
-          path.relative(cwd, architectureNote.filePath) +
-          '#L' +
-          architectureNote.loc.start.line +
-          '-L' +
-          architectureNote.loc.end.line +
-          ')' +
-          eol +
-          eol,
-        ''
-      )
+      architectureNotes
+        .sort(compareNotes)
+        .reduce((content, architectureNote) => {
+          let linesLink =
+            '#L' +
+            architectureNote.loc.start.line +
+            '-L' +
+            architectureNote.loc.end.line;
+          if (configuration.gitProvider.toLowerCase() === 'bitbucket') {
+            linesLink =
+              '#' +
+              path.basename(architectureNote.filePath) +
+              '-' +
+              architectureNote.loc.start.line +
+              ':' +
+              architectureNote.loc.end.line;
+          }
+          return (
+            content +
+            eol +
+            eol +
+            titleLevel +
+            architectureNote.num
+              .split('.')
+              .map(() => '#')
+              .join('') +
+            ' ' +
+            architectureNote.title +
+            eol +
+            eol +
+            architectureNote.content.replace(
+              new RegExp(
+                '([\r\n]+)[ \t]{' + architectureNote.loc.start.column + '}',
+                'g'
+              ),
+              '$1'
+            ) +
+            eol +
+            eol +
+            '[See in context](' +
+            base +
+            '/' +
+            path.relative(cwd, architectureNote.filePath) +
+            linesLink +
+            ')' +
+            eol +
+            eol
+          );
+        }, '')
     )
     .then(content => {
       if (content) {
