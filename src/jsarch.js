@@ -98,14 +98,28 @@ function initJSArch(
 
 /**
  * Compile an run a template
- * @param {Object}   services       Services (provided by the dependency injector)
- * @param {Object}   services.glob  Globbing service
- * @param {Object}   services.fs    File system service
- * @param {Object}   services.log   Logging service
- * @param {Object}   options        Options (destructured)
- * @param {Object}   options.cwd         Current working directory
- * @param {Object}   options.patterns    Patterns to look files for (see node-glob)
- * @return {String}                 Computed architecture notes
+ * @param {Object}   services
+ * Services (provided by the dependency injector)
+ * @param {Object}   services.glob
+ * Globbing service
+ * @param {Object}   services.fs
+ * File system service
+ * @param {Object}   services.log
+ * Logging service
+ * @param {Object}   options
+ * Options (destructured)
+ * @param {Object}   options.cwd
+ * Current working directory
+ * @param {Object}   options.patterns
+ * Patterns to look files for (see node-glob)
+ * @param {Object}   options.eol
+ * End of line character (default to the OS one)
+ * @param {Object}   options.titleLevel
+ * The base title level of the output makdown document
+ * @param {Object}   options.base
+ * The base directory for the ARCHITECTURE.md references
+ * @return {String}
+ * Computed architecture notes as a markdown file
  */
 function jsArch(
   { CONFIG, EOL, glob, fs, log },
