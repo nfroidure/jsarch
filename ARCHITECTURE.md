@@ -19,7 +19,7 @@ This service needs some other services. To be able to mock and
 
 ![Dependencies Graph](./DEPENDENCIES.mmd.png)
 
-[See in context](./src/jsarch.js#L66-L77)
+[See in context](./src/jsarch.js#L53-L64)
 
 
 
@@ -34,7 +34,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L224-L234)
+[See in context](./src/jsarch.js#L214-L224)
 
 
 
@@ -51,7 +51,7 @@ A sample tree structure could be:
 - 2
 - 3
 
-[See in context](./src/compareNotes.js#L7-L20)
+[See in context](./src/compareNotes.js#L1-L14)
 
 
 
@@ -64,7 +64,7 @@ If you wish to add the architecture notes in a README.md file
  you will have to set the `titleLevel` option to as much `#`
  as necessar to fit the title hierarchy of you README file.
 
-[See in context](./src/jsarch.js#L42-L50)
+[See in context](./src/jsarch.js#L31-L39)
 
 
 
@@ -76,5 +76,19 @@ By default, links to the architecture notes right in the code
 
 To override it, use the `base` option.
 
-[See in context](./src/jsarch.js#L53-L61)
+[See in context](./src/jsarch.js#L42-L50)
+
+
+
+## CLI
+
+The JSArch CLI tool basically wraps the jsArch service
+to make it usable from the CLI.
+
+To see its options, run:
+```
+jsarch -h
+```
+
+[See in context](./src/runJSArch.js#L1-L10)
 

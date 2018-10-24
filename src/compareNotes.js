@@ -1,9 +1,3 @@
-'use strict';
-
-module.exports = {
-  compareNotes,
-};
-
 /* Architecture Note #1.2: Ordering
 
 To order architecture notes in a meaningful way we
@@ -18,7 +12,7 @@ A sample tree structure could be:
 - 3
 
 */
-function compareNotes(aNote, bNote) {
+export function compareNotes(aNote, bNote) {
   const aNoteLevels = aNote.num.split('.').map(n => parseInt(n, 10));
   const bNoteLevels = bNote.num.split('.').map(n => parseInt(n, 10));
   const levelsDepth = Math.max(aNoteLevels.length, bNoteLevels.length);

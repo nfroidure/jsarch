@@ -1,8 +1,12 @@
 module.exports = {
   extends: 'eslint:recommended',
   parserOptions: {
-    sourceType: 'script',
+    ecmaVersion: 2017,
+    sourceType: 'module',
     modules: true,
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+    },
   },
   env: {
     es6: true,

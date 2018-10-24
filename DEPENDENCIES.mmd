@@ -1,4 +1,5 @@
 graph TD
+  program-->packageConf
   jsArch((jsArch))-->CONFIG{CONFIG}
   jsArch((jsArch))-->EOL{EOL}
   jsArch((jsArch))-->glob
@@ -7,6 +8,8 @@ graph TD
   classDef jsarch fill:#e7cdd2,stroke:#ebd4cb,stroke-width:1px;
   classDef config fill:#d4cdcc,stroke:#ebd4cb,stroke-width:1px;
   classDef others fill:#ebd4cb,stroke:#000,stroke-width:1px;
+  class program others;
+  class packageConf others;
   class jsArch jsarch;
   class CONFIG config;
   class EOL config;

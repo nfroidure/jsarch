@@ -1,7 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const { compareNotes } = require('./compareNotes');
+import assert from 'assert';
+import { compareNotes } from './compareNotes';
 
 describe('compareNotes()', () => {
   it('should well compare one level notes', () => {
