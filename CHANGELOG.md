@@ -1,3 +1,12 @@
+# [2.0.0](https://github.com/nfroidure/jsarch/compare/v1.3.0...v2.0.0) (2019-01-12)
+
+
+### Features
+
+* **configuration:** add configuration support (.jsarchrc or package) ([5b79a9d](https://github.com/nfroidure/jsarch/commit/5b79a9d))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/nfroidure/jsarch/compare/v1.2.7...v1.3.0) (2018-02-05)
 
