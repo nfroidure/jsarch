@@ -8,7 +8,7 @@ To see its options, run:
 jsarch -h
 ```
 */
-import Knifecycle, { constant, service, inject } from 'knifecycle';
+import Knifecycle, { constant, autoService } from 'knifecycle';
 import initDebug from 'debug';
 import fs from 'fs';
 import os from 'os';
@@ -79,15 +79,12 @@ async function prepareJSArch($ = new Knifecycle()) {
   const debug = initDebug('jsarch');
 
   $.register(
-    service(
-      'program',
-      inject(['packageConf'], async ({ packageConf }) => {
-        return program
-          .version(packageConf.version)
-          .option('-b, --base [value]', 'Base for links')
-          .parse(process.argv);
-      }),
-    ),
+    autoService(async function initProgram({ packageConf }) {
+      return program
+        .version(packageConf.version)
+        .option('-b, --base [value]', 'Base for links')
+        .parse(process.argv);
+    }),
   );
   $.register(
     constant(

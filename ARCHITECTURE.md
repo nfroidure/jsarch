@@ -34,7 +34,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L214-L224)
+[See in context](./src/jsarch.js#L207-L217)
 
 
 

@@ -1,4 +1,4 @@
-import { initializer } from 'knifecycle';
+import { service, name, autoInject } from 'knifecycle';
 import YError from 'yerror';
 import path from 'path';
 import espree from 'espree';
@@ -62,14 +62,7 @@ This service needs some other services. To be able to mock and
 
 ![Dependencies Graph](./DEPENDENCIES.mmd.png)
 */
-export default initializer(
-  {
-    name: 'jsArch',
-    inject: ['CONFIG', 'EOL', 'glob', 'fs', 'log'],
-    type: 'service',
-  },
-  initJSArch,
-);
+export default service(name('jsArch', autoInject(initJSArch)));
 
 /**
  * Declare jsArch in the dependency injection system
@@ -87,7 +80,7 @@ export default initializer(
  * Logging service
  * @returns {Promise<Function>}
  */
-async function initJSArch({ CONFIG, EOL, glob, fs, log = () => {} }) {
+async function initJSArch({ CONFIG, EOL, glob, fs, log = noop }) {
   return jsArch;
 
   /**
@@ -294,3 +287,5 @@ async function _extractArchitectureNotes({ fs, log }, filePath) {
 function _linearize(bulks) {
   return bulks.reduce((array, arrayBulk) => array.concat(arrayBulk), []);
 }
+
+function noop() {}
