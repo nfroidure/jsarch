@@ -1,7 +1,6 @@
 import { service, name, autoInject } from 'knifecycle';
 import YError from 'yerror';
 import path from 'path';
-import espree from 'espree';
 import types from 'ast-types';
 const def = types.Type.def;
 import { compareNotes } from './compareNotes';
@@ -17,6 +16,24 @@ def('ExperimentalRestProperty')
   .build('argument')
   .field('argument', def('Expression'));
 types.finalize();
+
+export const DEFAULT_CONFIG = {
+  gitProvider: 'github',
+  parser: '@babel/parser',
+  parserOptions: {
+    attachComment: true,
+    loc: true,
+    range: true,
+    ecmaVersion: 8,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: false,
+      globalReturn: false,
+      impliedStrict: false,
+      experimentalObjectRestSpread: true,
+    },
+  },
+};
 
 const ARCHITECTURE_NOTE_REGEXP = /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n$]*)/;
 const SHEBANG_REGEXP = /#! (\/\w+)+ node/;
@@ -80,7 +97,7 @@ export default service(name('jsArch', autoInject(initJSArch)));
  * Logging service
  * @returns {Promise<Function>}
  */
-async function initJSArch({ CONFIG, EOL, glob, fs, log = noop }) {
+async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
   return jsArch;
 
   /**
@@ -111,7 +128,7 @@ async function initJSArch({ CONFIG, EOL, glob, fs, log = noop }) {
     const files = await _computePatterns({ glob, log }, cwd, patterns);
     const architectureNotes = _linearize(
       await Promise.all(
-        files.map(_extractArchitectureNotes.bind(null, { fs, log })),
+        files.map(_extractArchitectureNotes.bind(null, { parser, fs, log })),
       ),
     );
     const content = architectureNotes
@@ -215,7 +232,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 */
-async function _extractArchitectureNotes({ fs, log }, filePath) {
+async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
   let content;
 
   log('debug', 'Reading file at', filePath);
@@ -236,19 +253,7 @@ async function _extractArchitectureNotes({ fs, log }, filePath) {
   }
 
   try {
-    const ast = espree.parse(content, {
-      attachComment: true,
-      loc: true,
-      range: true,
-      ecmaVersion: 8,
-      sourceType: 'module',
-      ecmaFeatures: {
-        jsx: false,
-        globalReturn: false,
-        impliedStrict: false,
-        experimentalObjectRestSpread: true,
-      },
-    });
+    const ast = parser(content);
     const architectureNotes = [];
 
     types.visit(ast, {
@@ -278,9 +283,9 @@ async function _extractArchitectureNotes({ fs, log }, filePath) {
 
     return architectureNotes;
   } catch (err) {
-    log('error', 'File parse failure:', path);
+    log('error', 'File parse failure:', filePath);
     log('stack', 'Stack:', err.stack);
-    throw YError.wrap(err, 'E_FILE_PARSE_FAILURE', path);
+    throw YError.wrap(err, 'E_FILE_PARSE_FAILURE', filePath);
   }
 }
 

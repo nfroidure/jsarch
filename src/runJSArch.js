@@ -10,6 +10,7 @@ jsarch -h
 */
 import Knifecycle, { constant, autoService } from 'knifecycle';
 import initDebug from 'debug';
+import initParser from './parser';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
@@ -18,7 +19,7 @@ import program from 'commander';
 import Promise from 'bluebird';
 import packagerc from 'packagerc';
 
-import initJSArch from './jsarch';
+import initJSArch, { DEFAULT_CONFIG } from './jsarch';
 
 export default async function runJSArch() {
   try {
@@ -86,6 +87,7 @@ async function prepareJSArch($ = new Knifecycle()) {
         .parse(process.argv);
     }),
   );
+  $.register(initParser);
   $.register(
     constant(
       'packageConf',
@@ -95,9 +97,7 @@ async function prepareJSArch($ = new Knifecycle()) {
   $.register(constant('fs', Promise.promisifyAll(fs)));
   $.register(constant('EOL', os.EOL));
   $.register(constant('ENV', process.env));
-  $.register(
-    constant('CONFIG', packagerc('jsarch', { gitProvider: 'github' })),
-  );
+  $.register(constant('CONFIG', packagerc('jsarch', DEFAULT_CONFIG)));
   $.register(constant('glob', Promise.promisify(glob)));
   $.register(
     constant('log', (type, ...args) => {

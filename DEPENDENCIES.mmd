@@ -1,17 +1,20 @@
 graph TD
   program-->packageConf
+  parser-->CONFIG{CONFIG}
   jsArch((jsArch))-->CONFIG{CONFIG}
   jsArch((jsArch))-->EOL{EOL}
   jsArch((jsArch))-->glob
   jsArch((jsArch))-->fs
+  jsArch((jsArch))-->parser
   jsArch((jsArch))-->log
   classDef jsarch fill:#e7cdd2,stroke:#ebd4cb,stroke-width:1px;
   classDef config fill:#d4cdcc,stroke:#ebd4cb,stroke-width:1px;
   classDef others fill:#ebd4cb,stroke:#000,stroke-width:1px;
   class program others;
   class packageConf others;
-  class jsArch jsarch;
   class CONFIG config;
+  class parser others;
+  class jsArch jsarch;
   class EOL config;
   class glob others;
   class fs others;
