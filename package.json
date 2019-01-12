@@ -42,7 +42,7 @@
     "lint": "eslint src/*.js",
     "metapak": "metapak",
     "mocha": "mocha --require '@babel/register' src/*.mocha.js",
-    "precz": "npm run graph && npm run architecture && npm run doc && npm t && npm run lint && npm run metapak -- -s",
+    "precz": "npm run compile && npm run graph && npm run architecture && npm run doc && npm t && npm run lint && npm run metapak -- -s",
     "prettier": "prettier --write src/*.js",
     "preversion": "npm t && npm run lint && npm run metapak -- -s && npm run compile && npm run doc",
     "test": "npm run mocha",

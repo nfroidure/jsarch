@@ -104,6 +104,60 @@ Some content !
     );
   });
 
+  it('with some architecture notes in a TypeScript file', async () => {
+    $.register(
+      constant('CONFIG', {
+        ...DEFAULT_CONFIG,
+        parserOptions: {
+          ...DEFAULT_CONFIG.parserOptions,
+          plugins: ['typescript'],
+        },
+      }),
+    );
+    globStub.returns(Promise.resolve(['/home/me/project/kikoo.js']));
+
+    readFileAsyncStub.returns(
+      Promise.resolve(`
+
+interface lol {
+  lol : string;
+}
+
+/* Architecture Note #1: Title
+
+Some content !
+*/
+
+console.log('test');
+
+    `),
+    );
+
+    const { jsArch } = await $.run(['jsArch']);
+    const content = await jsArch({
+      patterns: ['**/*.js'],
+      base: './blob/master',
+      cwd: '/home/me/project',
+    });
+    assert.deepEqual(readFileAsyncStub.args, [
+      ['/home/me/project/kikoo.js', 'utf-8'],
+    ]);
+    assert.equal(
+      content,
+      `${JSARCH_PREFIX}# Architecture Notes
+
+
+
+## Title
+
+Some content !
+
+[See in context](./blob/master/kikoo.js#L7-L10)
+
+`,
+    );
+  });
+
   it('with some architecture notes in a file and bitbucket links', async () => {
     $.register(
       constant('CONFIG', {

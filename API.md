@@ -13,6 +13,7 @@ Declare jsArch in the dependency injection system
 | services.EOL | <code>Object</code> |  | The OS EOL chars |
 | services.glob | <code>Object</code> |  | Globbing service |
 | services.fs | <code>Object</code> |  | File system service |
+| services.parser | <code>Object</code> |  | Parser service |
 | [services.log] | <code>Object</code> | <code>noop</code> | Logging service |
 
 <a name="initJSArch..jsArch"></a>

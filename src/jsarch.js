@@ -93,6 +93,8 @@ export default service(name('jsArch', autoInject(initJSArch)));
  * Globbing service
  * @param {Object}   services.fs
  * File system service
+ * @param {Object}   services.parser
+ * Parser service
  * @param {Object}   [services.log = noop]
  * Logging service
  * @returns {Promise<Function>}
