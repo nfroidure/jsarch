@@ -8,7 +8,13 @@ To see its options, run:
 jsarch -h
 ```
 */
-import Knifecycle, { constant, autoService } from 'knifecycle';
+import Knifecycle, {
+  constant,
+  name,
+  service,
+  autoInject,
+  autoService,
+} from 'knifecycle';
 import initDebug from 'debug';
 import initParser from './parser';
 import fs from 'fs';
@@ -17,7 +23,9 @@ import path from 'path';
 import glob from 'glob';
 import program from 'commander';
 import Promise from 'bluebird';
+import deepExtend from 'deep-extend';
 import packagerc from 'packagerc';
+import pkgDir from 'pkg-dir';
 
 import initJSArch, { DEFAULT_CONFIG } from './jsarch';
 
@@ -97,7 +105,24 @@ async function prepareJSArch($ = new Knifecycle()) {
   $.register(constant('fs', Promise.promisifyAll(fs)));
   $.register(constant('EOL', os.EOL));
   $.register(constant('ENV', process.env));
-  $.register(constant('CONFIG', packagerc('jsarch', DEFAULT_CONFIG)));
+  $.register(name('PROJECT_DIR', service(async () => pkgDir())));
+  $.register(
+    name(
+      'CONFIG',
+      service(
+        autoInject(async function initConfig({ PROJECT_DIR }) {
+          const packageJSON = require(path.join(PROJECT_DIR, 'package.json'));
+          const baseConfig = packageJSON.jsarch || DEFAULT_CONFIG;
+
+          if (packageJSON.jsarch) {
+            deepExtend(packageJSON.jsarch, DEFAULT_CONFIG);
+          }
+
+          return packagerc('jsarch', baseConfig);
+        }),
+      ),
+    ),
+  );
   $.register(constant('glob', Promise.promisify(glob)));
   $.register(
     constant('log', (type, ...args) => {

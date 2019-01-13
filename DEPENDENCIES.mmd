@@ -1,6 +1,7 @@
 graph TD
   program-->packageConf
   parser-->CONFIG{CONFIG}
+  CONFIG{CONFIG}-->PROJECT_DIR{PROJECT_DIR}
   jsArch((jsArch))-->CONFIG{CONFIG}
   jsArch((jsArch))-->EOL{EOL}
   jsArch((jsArch))-->glob
@@ -14,6 +15,7 @@ graph TD
   class packageConf others;
   class CONFIG config;
   class parser others;
+  class PROJECT_DIR config;
   class jsArch jsarch;
   class EOL config;
   class glob others;
