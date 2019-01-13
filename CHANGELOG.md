@@ -1,3 +1,13 @@
+## [2.0.1](https://github.com/nfroidure/jsarch/compare/v2.0.0...v2.0.1) (2019-01-13)
+
+
+### Bug Fixes
+
+* **CONFIG:** Fix `package.json` configuration for edge cases ([5ddc915](https://github.com/nfroidure/jsarch/commit/5ddc915))
+* **Documentation:** Add missing docs ([eb3dc50](https://github.com/nfroidure/jsarch/commit/eb3dc50))
+
+
+
 # [2.0.0](https://github.com/nfroidure/jsarch/compare/v1.3.0...v2.0.0) (2019-01-12)
 
 

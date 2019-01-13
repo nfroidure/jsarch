@@ -1,6 +1,6 @@
 {
   "name": "jsarch",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A simple module to extract architecture notes from your code.",
   "main": "dist/index.js",
   "metapak": {
