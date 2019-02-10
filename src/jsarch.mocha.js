@@ -104,6 +104,47 @@ Some content !
     );
   });
 
+  it('with some architecture notes containing a $', async () => {
+    globStub.returns(Promise.resolve(['/home/me/project/kikoo.js']));
+
+    readFileAsyncStub.returns(
+      Promise.resolve(`
+
+/* Architecture Note #1: \`$autoload\`
+
+Some content !
+*/
+
+console.log('test');
+
+    `),
+    );
+
+    const { jsArch } = await $.run(['jsArch']);
+    const content = await jsArch({
+      patterns: ['**/*.js'],
+      base: './blob/master',
+      cwd: '/home/me/project',
+    });
+    assert.deepEqual(readFileAsyncStub.args, [
+      ['/home/me/project/kikoo.js', 'utf-8'],
+    ]);
+    assert.equal(
+      content,
+      `${JSARCH_PREFIX}# Architecture Notes
+
+
+
+## \`$autoload\`
+
+Some content !
+
+[See in context](./blob/master/kikoo.js#L3-L6)
+
+`,
+    );
+  });
+
   it('with some architecture notes in a TypeScript file', async () => {
     $.register(
       constant('CONFIG', {

@@ -35,7 +35,7 @@ export const DEFAULT_CONFIG = {
   },
 };
 
-const ARCHITECTURE_NOTE_REGEXP = /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n$]*)/;
+const ARCHITECTURE_NOTE_REGEXP = /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n]*|$)/;
 const SHEBANG_REGEXP = /#! (\/\w+)+ node/;
 const EOL_REGEXP = /\n/g;
 const JSARCH_PREFIX = `[//]: # ( )
