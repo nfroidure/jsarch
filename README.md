@@ -7,12 +7,12 @@
 # jsarch
 > A simple module to extract architecture notes from your code.
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/jsarch/blob/master/LICENSE)
 [![Build status](https://secure.travis-ci.org/nfroidure/jsarch.svg)](https://travis-ci.org/nfroidure/jsarch)
 [![Coverage Status](https://coveralls.io/repos/nfroidure/jsarch/badge.svg?branch=master)](https://coveralls.io/r/nfroidure/jsarch?branch=master)
 [![NPM version](https://badge.fury.io/js/jsarch.svg)](https://npmjs.org/package/jsarch)
 [![Dependency Status](https://david-dm.org/nfroidure/jsarch.svg)](https://david-dm.org/nfroidure/jsarch)
 [![devDependency Status](https://david-dm.org/nfroidure/jsarch/dev-status.svg)](https://david-dm.org/nfroidure/jsarch#info=devDependencies)
-[![Dependency Status](https://dependencyci.com/github/nfroidure/jsarch/badge)](https://dependencyci.com/github/nfroidure/jsarch)
 [![Package Quality](http://npm.packagequality.com/shield/jsarch.svg)](http://packagequality.com/#?package=jsarch)
 [![Code Climate](https://codeclimate.com/github/nfroidure/jsarch.svg)](https://codeclimate.com/github/nfroidure/jsarch)
 

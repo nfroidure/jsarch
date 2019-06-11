@@ -1,8 +1,8 @@
 import { service, name, autoInject } from 'knifecycle';
 import YError from 'yerror';
 import path from 'path';
-import types from 'ast-types';
-const def = types.Type.def;
+import { Type, finalize, visit } from 'ast-types';
+const { def } = Type;
 import { compareNotes } from './compareNotes';
 
 // Temporary fix to make jsarch work
@@ -15,7 +15,7 @@ def('ExperimentalRestProperty')
   .bases('Node')
   .build('argument')
   .field('argument', def('Expression'));
-types.finalize();
+finalize();
 
 export const DEFAULT_CONFIG = {
   gitProvider: 'github',
@@ -258,7 +258,7 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
     const ast = parser(content);
     const architectureNotes = [];
 
-    types.visit(ast, {
+    visit(ast, {
       visitComment: function(path) {
         const comment = path.value.value;
         const matches = ARCHITECTURE_NOTE_REGEXP.exec(comment);
