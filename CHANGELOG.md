@@ -1,3 +1,7 @@
+# [3.0.0](https://github.com/nfroidure/jsarch/compare/v2.0.3...v3.0.0) (2020-05-17)
+
+
+
 ## [2.0.3](https://github.com/nfroidure/jsarch/compare/v2.0.2...v2.0.3) (2019-06-11)
 
 
