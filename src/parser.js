@@ -13,5 +13,5 @@ async function initParser({ CONFIG = DEFAULT_CONFIG }) {
     throw YError.wrap(err, 'E_PARSER_LACK', CONFIG.parser);
   }
 
-  return content => parser.parse(content, CONFIG.parserOptions);
+  return (content) => parser.parse(content, CONFIG.parserOptions);
 }

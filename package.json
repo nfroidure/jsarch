@@ -2,7 +2,7 @@
   "name": "jsarch",
   "version": "2.0.3",
   "description": "A simple module to extract architecture notes from your code.",
-  "main": "dist/index.js",
+  "main": "dist/index",
   "metapak": {
     "configs": [
       "main",
@@ -21,8 +21,9 @@
       "files": "src/*.js",
       "testsFiles": "src/*.mocha.js",
       "bundleFiles": [
-        "dist/**/*.js",
-        "bin/**/*.js"
+        "bin/**/*.js",
+        "dist",
+        "src"
       ]
     }
   },
@@ -30,7 +31,9 @@
     "architecture": "node bin/jsarch.js src/*.js > ARCHITECTURE.md",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "cli": "env NODE_ENV=${NODE_ENV:-cli}",
-    "compile": "babel src --out-dir=dist",
+    "compile": "rimraf -f 'dist' && npm run compile:cjs && npm run compile:mjs",
+    "compile:cjs": "babel --env-name=cjs --out-dir=dist --source-maps=true src",
+    "compile:mjs": "babel --env-name=mjs --out-file-extension=.mjs --out-dir=dist --source-maps=true src",
     "cover": "nyc npm test && nyc report --reporter=html --reporter=text",
     "coveralls": "nyc npm test && nyc report --reporter=text-lcov | coveralls && rm -rf ./coverage",
     "cz": "env NODE_ENV=${NODE_ENV:-cli} git cz",
@@ -60,45 +63,44 @@
     "jsarch": "bin/jsarch.js"
   },
   "dependencies": {
-    "@babel/parser": "^7.4.5",
-    "ast-types": "^0.13.1",
-    "bluebird": "^3.5.5",
+    "@babel/parser": "^7.9.6",
+    "ast-types": "^0.13.3",
+    "bluebird": "^3.7.2",
     "commander": "^2.20.0",
     "debug": "^4.1.1",
     "deep-extend": "^0.6.0",
-    "glob": "^7.1.4",
-    "knifecycle": "^6.0.0",
+    "glob": "^7.1.6",
+    "knifecycle": "^9.1.1",
     "packagerc": "^1.1.0",
     "pkg-dir": "^4.2.0",
-    "yerror": "^4.0.1"
+    "yerror": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
-    "@babel/plugin-proposal-object-rest-spread": "^7.3.1",
-    "@babel/preset-env": "^7.3.1",
-    "@babel/register": "^7.0.0",
-    "babel-eslint": "^10.0.1",
-    "babel-plugin-knifecycle": "^1.0.3",
-    "commitizen": "^3.0.5",
-    "conventional-changelog-cli": "^2.0.11",
-    "coveralls": "^3.0.2",
-    "cz-conventional-changelog": "^2.1.0",
-    "eslint": "^5.13.0",
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/register": "^7.9.0",
+    "@mermaid-js/mermaid-cli": "^8.5.1",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-knifecycle": "^1.2.0",
+    "commitizen": "^4.0.3",
+    "conventional-changelog-cli": "^2.0.31",
+    "coveralls": "^3.0.11",
+    "cz-conventional-changelog": "^3.1.0",
+    "eslint": "^6.8.0",
     "eslint-plugin-mongodb": "0.2.4",
     "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-promise": "^3.6.0",
-    "jsdoc-to-markdown": "^4.0.1",
-    "mermaid": "^7.1.2",
-    "mermaid.cli": "^0.5.1",
-    "metapak": "^3.1.6",
-    "metapak-nfroidure": "9.6.2",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "phantomjs-prebuilt": "^2.1.16",
-    "prettier": "^1.16.3",
-    "sinon": "^7.3.2"
+    "jsdoc-to-markdown": "^5.0.3",
+    "mermaid": "^8.5.1",
+    "metapak": "^3.1.8",
+    "metapak-nfroidure": "10.1.2",
+    "mocha": "^7.1.1",
+    "nyc": "^15.0.0",
+    "prettier": "^2.0.2",
+    "sinon": "^9.0.2"
   },
   "author": {
     "name": "Nicolas Froidure",
@@ -111,7 +113,7 @@
   },
   "homepage": "https://github.com/nfroidure/jsarch#readme",
   "engines": {
-    "node": ">=8.12.0"
+    "node": ">=10.19.0"
   },
   "config": {
     "commitizen": {
@@ -145,7 +147,7 @@
         "@babel/env",
         {
           "targets": {
-            "node": "8.12.0"
+            "node": "10.19.0"
           }
         }
       ]
@@ -183,8 +185,9 @@
     "proseWrap": "always"
   },
   "files": [
-    "dist/**/*.js",
     "bin/**/*.js",
+    "dist",
+    "src",
     "LICENSE",
     "README.md",
     "CHANGELOG.md"
@@ -193,5 +196,6 @@
     "exclude": [
       "src/*.mocha.js"
     ]
-  }
+  },
+  "module": "dist/index.mjs"
 }

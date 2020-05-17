@@ -13,8 +13,8 @@ A sample tree structure could be:
 
 */
 export function compareNotes(aNote, bNote) {
-  const aNoteLevels = aNote.num.split('.').map(n => parseInt(n, 10));
-  const bNoteLevels = bNote.num.split('.').map(n => parseInt(n, 10));
+  const aNoteLevels = aNote.num.split('.').map((n) => parseInt(n, 10));
+  const bNoteLevels = bNote.num.split('.').map((n) => parseInt(n, 10));
   const levelsDepth = Math.max(aNoteLevels.length, bNoteLevels.length);
   let result = 0;
 

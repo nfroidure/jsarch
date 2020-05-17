@@ -105,7 +105,12 @@ async function prepareJSArch($ = new Knifecycle()) {
   $.register(constant('fs', Promise.promisifyAll(fs)));
   $.register(constant('EOL', os.EOL));
   $.register(constant('ENV', process.env));
-  $.register(name('PROJECT_DIR', service(async () => pkgDir())));
+  $.register(
+    name(
+      'PROJECT_DIR',
+      service(async () => pkgDir()),
+    ),
+  );
   $.register(
     name(
       'CONFIG',

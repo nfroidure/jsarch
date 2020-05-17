@@ -200,7 +200,7 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
 async function _computePatterns({ glob, log }, cwd, patterns) {
   return _linearize(
     await Promise.all(
-      patterns.map(async pattern => {
+      patterns.map(async (pattern) => {
         log('debug', 'Processing pattern:', pattern);
         try {
           const files = await glob(pattern, {
@@ -259,7 +259,7 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
     const architectureNotes = [];
 
     visit(ast, {
-      visitComment: function(path) {
+      visitComment: function (path) {
         const comment = path.value.value;
         const matches = ARCHITECTURE_NOTE_REGEXP.exec(comment);
 
@@ -280,7 +280,7 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
     log(
       'debug',
       'Architecture notes found:',
-      architectureNotes.map(a => a.title),
+      architectureNotes.map((a) => a.title),
     );
 
     return architectureNotes;
