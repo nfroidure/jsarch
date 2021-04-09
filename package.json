@@ -63,44 +63,43 @@
     "jsarch": "bin/jsarch.js"
   },
   "dependencies": {
-    "@babel/parser": "^7.9.6",
-    "ast-types": "^0.13.3",
+    "@babel/parser": "^7.13.15",
+    "ast-types": "^0.14.2",
     "bluebird": "^3.7.2",
-    "commander": "^2.20.0",
-    "debug": "^4.1.1",
+    "commander": "^7.2.0",
+    "debug": "^4.3.1",
     "deep-extend": "^0.6.0",
     "glob": "^7.1.6",
-    "knifecycle": "^9.1.1",
+    "knifecycle": "^11.1.0",
     "packagerc": "^1.1.0",
-    "pkg-dir": "^4.2.0",
+    "pkg-dir": "^5.0.0",
     "yerror": "^5.0.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.8.4",
-    "@babel/core": "^7.9.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.9.0",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/register": "^7.9.0",
-    "@mermaid-js/mermaid-cli": "^8.5.1",
-    "babel-eslint": "^10.1.0",
-    "babel-plugin-knifecycle": "^1.2.0",
-    "commitizen": "^4.0.3",
-    "conventional-changelog-cli": "^2.0.31",
-    "coveralls": "^3.0.11",
-    "cz-conventional-changelog": "^3.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-mongodb": "0.2.4",
-    "eslint-plugin-node": "^5.2.1",
-    "eslint-plugin-prettier": "^3.1.2",
-    "eslint-plugin-promise": "^3.6.0",
-    "jsdoc-to-markdown": "^5.0.3",
-    "mermaid": "^8.5.1",
-    "metapak": "^3.1.8",
-    "metapak-nfroidure": "10.1.2",
-    "mocha": "^7.1.1",
-    "nyc": "^15.0.0",
-    "prettier": "^2.0.2",
-    "sinon": "^9.0.2"
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/eslint-parser": "^7.13.14",
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.8",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/register": "^7.13.14",
+    "@mermaid-js/mermaid-cli": "^8.9.2",
+    "babel-plugin-knifecycle": "^5.0.0",
+    "commitizen": "^4.2.3",
+    "conventional-changelog-cli": "^2.1.1",
+    "coveralls": "^3.1.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint": "^7.23.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-promise": "^4.3.1",
+    "jsdoc-to-markdown": "^6.0.1",
+    "mermaid": "^8.9.2",
+    "metapak": "^3.1.10",
+    "metapak-nfroidure": "11.0.5",
+    "mocha": "^8.3.2",
+    "nyc": "^15.1.0",
+    "prettier": "^2.2.1",
+    "sinon": "^10.0.1"
   },
   "author": {
     "name": "Nicolas Froidure",
@@ -113,7 +112,7 @@
   },
   "homepage": "https://github.com/nfroidure/jsarch#readme",
   "engines": {
-    "node": ">=10.19.0"
+    "node": ">=12.19.0"
   },
   "config": {
     "commitizen": {
@@ -147,7 +146,7 @@
         "@babel/env",
         {
           "targets": {
-            "node": "10.19.0"
+            "node": "12.19.0"
           }
         }
       ]
@@ -158,7 +157,9 @@
     ]
   },
   "eslintConfig": {
-    "extends": "eslint:recommended",
+    "extends": [
+      "eslint:recommended"
+    ],
     "parserOptions": {
       "ecmaVersion": 2018,
       "sourceType": "module",
