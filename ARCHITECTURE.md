@@ -5,6 +5,19 @@
 [//]: # ( )
 # Architecture Notes
 
+Summary
+
+[jsArch service](#jsarch-service)
+
+[Extraction](#extraction)
+
+[Ordering](#ordering)
+
+[Title level](#title-level)
+
+[Base](#base)
+
+[CLI](#cli)
 
 
 ## jsArch service
@@ -34,7 +47,7 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L226-L236)
+[See in context](./src/jsarch.js#L249-L259)
 
 
 

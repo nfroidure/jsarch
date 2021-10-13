@@ -139,7 +139,12 @@
       "jsdoc-to-markdown"
     ]
   },
-  "contributors": [],
+  "contributors": [
+    {
+      "name": "Antoine Demon-Chaine",
+      "url": "https://github.com/antoinedmc"
+    }
+  ],
   "babel": {
     "presets": [
       [

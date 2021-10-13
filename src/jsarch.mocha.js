@@ -92,6 +92,9 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
+Summary
+
+[Title](#title)
 
 
 ## Title
@@ -133,6 +136,9 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
+Summary
+
+[\`$autoload\`](#\`$autoload\`)
 
 
 ## \`$autoload\`
@@ -187,6 +193,9 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
+Summary
+
+[Title](#title)
 
 
 ## Title
@@ -235,6 +244,9 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
+Summary
+
+[Title](#title)
 
 
 ## Title
@@ -277,6 +289,9 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
+Summary
+
+[Title](#title)
 
 
 ## Title
@@ -344,6 +359,15 @@ Some content !
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
+Summary
+
+[Title 1](#title-1)
+
+[Title 1.1](#title-1.1)
+
+[Title 1.3](#title-1.3)
+
+[Title 2](#title-2)
 
 
 ## Title 1
