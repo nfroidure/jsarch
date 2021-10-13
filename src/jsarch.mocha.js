@@ -94,10 +94,10 @@ console.log('test');
 
 Summary
 
-[Title](#title)
+[1 Title](#1-title)
 
 
-## Title
+## 1 Title
 
 Some content !
 
@@ -138,10 +138,10 @@ console.log('test');
 
 Summary
 
-[\`$autoload\`](#\`$autoload\`)
+[1 \`$autoload\`](#1-\`$autoload\`)
 
 
-## \`$autoload\`
+## 1 \`$autoload\`
 
 Some content !
 
@@ -195,10 +195,10 @@ console.log('test');
 
 Summary
 
-[Title](#title)
+[1 Title](#1-title)
 
 
-## Title
+## 1 Title
 
 Some content !
 
@@ -246,10 +246,10 @@ console.log('test');
 
 Summary
 
-[Title](#title)
+[1 Title](#1-title)
 
 
-## Title
+## 1 Title
 
 Some content !
 
@@ -291,10 +291,10 @@ console.log('test');
 
 Summary
 
-[Title](#title)
+[1 Title](#1-title)
 
 
-## Title
+## 1 Title
 
 Some content !
 Nice!
@@ -315,13 +315,13 @@ Nice!
 
     readFileAsyncStub.onFirstCall().returns(
       Promise.resolve(`
-/* Architecture Note #1.1: Title 1.1
+/* Architecture Note #1.1: Title
 
 Some content !
 */
 
 console.log('test');
-/* Architecture Note #1: Title 1
+/* Architecture Note #1: Title
 
 Some content !
 */
@@ -331,13 +331,13 @@ Some content !
 
     readFileAsyncStub.onSecondCall().returns(
       Promise.resolve(`
-/* Architecture Note #1.3: Title 1.3
+/* Architecture Note #1.3: Title
 
 Some content !
 */
 
 console.log('test');
-/* Architecture Note #2: Title 2
+/* Architecture Note #2: Title
 
 Some content !
 */
@@ -361,16 +361,16 @@ Some content !
 
 Summary
 
-[Title 1](#title-1)
+[1 Title](#1-title)
 
-[Title 1.1](#title-1.1)
+[1.1 Title](#11-title)
 
-[Title 1.3](#title-1.3)
+[1.3 Title](#13-title)
 
-[Title 2](#title-2)
+[2 Title](#2-title)
 
 
-## Title 1
+## 1 Title
 
 Some content !
 
@@ -378,7 +378,7 @@ Some content !
 
 
 
-### Title 1.1
+### 1.1 Title
 
 Some content !
 
@@ -386,7 +386,7 @@ Some content !
 
 
 
-### Title 1.3
+### 1.3 Title
 
 Some content !
 
@@ -394,7 +394,7 @@ Some content !
 
 
 
-## Title 2
+## 2 Title
 
 Some content !
 

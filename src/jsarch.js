@@ -137,14 +137,17 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
     const summary = architectureNotes
       .sort(compareNotes)
       .reduce((summary, architectureNote) => {
-        const titleAnchor = architectureNote.title
-          .toLowerCase()
-          .replace(/ /g, '-');
+        const titleAnchor =
+          architectureNote.num.replace('.', '') +
+          '-' +
+          architectureNote.title.toLowerCase().replace(/ /g, '-');
         return (
           summary +
           eol +
           eol +
           '[' +
+          architectureNote.num +
+          ' ' +
           architectureNote.title +
           ']' +
           '(#' +
@@ -179,6 +182,8 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
             .split('.')
             .map(() => '#')
             .join('') +
+          ' ' +
+          architectureNote.num +
           ' ' +
           architectureNote.title +
           eol +
