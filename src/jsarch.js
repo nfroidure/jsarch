@@ -133,6 +133,26 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
         files.map(_extractArchitectureNotes.bind(null, { parser, fs, log })),
       ),
     );
+
+    const summary = architectureNotes
+      .sort(compareNotes)
+      .reduce((summary, architectureNote) => {
+        const titleAnchor = architectureNote.title
+          .toLowerCase()
+          .replace(/ /g, '-');
+        return (
+          summary +
+          eol +
+          eol +
+          '[' +
+          architectureNote.title +
+          ']' +
+          '(#' +
+          titleAnchor +
+          ')'
+        );
+      }, '');
+
     const content = architectureNotes
       .sort(compareNotes)
       .reduce((content, architectureNote) => {
@@ -183,12 +203,15 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
         );
       }, '');
 
-    if (content) {
+    if (content && summary) {
       return (
         JSARCH_PREFIX.replace(EOL_REGEXP, eol) +
         titleLevel +
         ' Architecture Notes' +
         eol +
+        eol +
+        'Summary' +
+        summary +
         eol +
         content
       );
