@@ -94,7 +94,7 @@ console.log('test');
 
 Summary
 
-[1 Title](#1-title)
+1. [Title](#1-title)
 
 
 ## 1 Title
@@ -138,7 +138,7 @@ console.log('test');
 
 Summary
 
-[1 \`$autoload\`](#1-\`$autoload\`)
+1. [\`$autoload\`](#1-\`$autoload\`)
 
 
 ## 1 \`$autoload\`
@@ -195,7 +195,7 @@ console.log('test');
 
 Summary
 
-[1 Title](#1-title)
+1. [Title](#1-title)
 
 
 ## 1 Title
@@ -246,7 +246,7 @@ console.log('test');
 
 Summary
 
-[1 Title](#1-title)
+1. [Title](#1-title)
 
 
 ## 1 Title
@@ -291,7 +291,7 @@ console.log('test');
 
 Summary
 
-[1 Title](#1-title)
+1. [Title](#1-title)
 
 
 ## 1 Title
@@ -361,13 +361,13 @@ Some content !
 
 Summary
 
-[1 Title](#1-title)
+1. [Title](#1-title)
 
-[1.1 Title](#11-title)
+   1. [Title](#11-title)
 
-[1.3 Title](#13-title)
+   3. [Title](#13-title)
 
-[2 Title](#2-title)
+2. [Title](#2-title)
 
 
 ## 1 Title
