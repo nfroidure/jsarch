@@ -141,13 +141,22 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
           architectureNote.num.replace('.', '') +
           '-' +
           architectureNote.title.toLowerCase().replace(/ /g, '-');
+
+        const titleNums = architectureNote.num.split('.');
+
+        let tabulation = '';
+        for (let i = 0; i < titleNums.length; i++) {
+          if (i > 0) {
+            tabulation += '   ';
+          }
+        }
+
         return (
           summary +
           eol +
-          eol +
-          '[' +
-          architectureNote.num +
-          ' ' +
+          tabulation +
+          titleNums[titleNums.length - 1] +
+          '. [' +
           architectureNote.title +
           ']' +
           '(#' +
@@ -184,7 +193,7 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
             .join('') +
           ' ' +
           architectureNote.num +
-          ' ' +
+          '. ' +
           architectureNote.title +
           eol +
           eol +
@@ -215,7 +224,8 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
         ' Architecture Notes' +
         eol +
         eol +
-        'Summary' +
+        '## Summary' +
+        eol +
         summary +
         eol +
         content

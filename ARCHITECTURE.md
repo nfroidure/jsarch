@@ -5,22 +5,17 @@
 [//]: # ( )
 # Architecture Notes
 
-Summary
+## Summary
 
-[1 jsArch service](#1-jsarch-service)
-
-[1.1 Extraction](#11-extraction)
-
-[1.2 Ordering](#12-ordering)
-
-[1.3 Title level](#13-title-level)
-
-[1.4 Base](#14-base)
-
-[2 CLI](#2-cli)
+1. [jsArch service](#1-jsarch-service)
+   1. [Extraction](#11-extraction)
+   2. [Ordering](#12-ordering)
+   3. [Title level](#13-title-level)
+   4. [Base](#14-base)
+2. [CLI](#2-cli)
 
 
-## 1 jsArch service
+## 1. jsArch service
 
 JSArch is basically a service that exposes a function allowing
  to extract and output architecture notes from the code.
@@ -36,7 +31,7 @@ This service needs some other services. To be able to mock and
 
 
 
-### 1.1 Extraction
+### 1.1. Extraction
 
 We use AST parsing and visiting to retrieve well formed
 architecture notes. It should be structured like that:
@@ -47,11 +42,11 @@ architecture notes. It should be structured like that:
 {body}
 ```
 
-[See in context](./src/jsarch.js#L254-L264)
+[See in context](./src/jsarch.js#L264-L274)
 
 
 
-### 1.2 Ordering
+### 1.2. Ordering
 
 To order architecture notes in a meaningful way we
  use title hierarchy like we used too at school with
@@ -68,7 +63,7 @@ A sample tree structure could be:
 
 
 
-### 1.3 Title level
+### 1.3. Title level
 
 By default, titles will be added like if the architecture
  notes were in a single separated file.
@@ -81,7 +76,7 @@ If you wish to add the architecture notes in a README.md file
 
 
 
-### 1.4 Base
+### 1.4. Base
 
 By default, links to the architecture notes right in the code
  are supposed relative to the README.md file like you would
@@ -93,7 +88,7 @@ To override it, use the `base` option.
 
 
 
-## 2 CLI
+## 2. CLI
 
 The JSArch CLI tool basically wraps the jsArch service
 to make it usable from the CLI.
