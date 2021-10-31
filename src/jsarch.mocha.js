@@ -92,12 +92,12 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
-Summary
+## Summary
 
 1. [Title](#1-title)
 
 
-## 1 Title
+## 1. Title
 
 Some content !
 
@@ -136,12 +136,12 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
-Summary
+## Summary
 
 1. [\`$autoload\`](#1-\`$autoload\`)
 
 
-## 1 \`$autoload\`
+## 1. \`$autoload\`
 
 Some content !
 
@@ -193,12 +193,12 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
-Summary
+## Summary
 
 1. [Title](#1-title)
 
 
-## 1 Title
+## 1. Title
 
 Some content !
 
@@ -244,12 +244,12 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
-Summary
+## Summary
 
 1. [Title](#1-title)
 
 
-## 1 Title
+## 1. Title
 
 Some content !
 
@@ -289,12 +289,12 @@ console.log('test');
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
-Summary
+## Summary
 
 1. [Title](#1-title)
 
 
-## 1 Title
+## 1. Title
 
 Some content !
 Nice!
@@ -359,18 +359,15 @@ Some content !
       content,
       `${JSARCH_PREFIX}# Architecture Notes
 
-Summary
+## Summary
 
 1. [Title](#1-title)
-
    1. [Title](#11-title)
-
    3. [Title](#13-title)
-
 2. [Title](#2-title)
 
 
-## 1 Title
+## 1. Title
 
 Some content !
 
@@ -378,7 +375,7 @@ Some content !
 
 
 
-### 1.1 Title
+### 1.1. Title
 
 Some content !
 
@@ -386,7 +383,7 @@ Some content !
 
 
 
-### 1.3 Title
+### 1.3. Title
 
 Some content !
 
@@ -394,7 +391,7 @@ Some content !
 
 
 
-## 2 Title
+## 2. Title
 
 Some content !
 
