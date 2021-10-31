@@ -1,3 +1,19 @@
+# [5.0.0](https://github.com/nfroidure/jsarch/compare/v4.0.1...v5.0.0) (2021-10-31)
+
+
+### Bug Fixes
+
+* **summary:** set summary as a markdown list ([390876a](https://github.com/nfroidure/jsarch/commit/390876af434980a54868e2244d0ea9b73fbdda38))
+* **tests:** fix the tests before publishing ([4b9a56e](https://github.com/nfroidure/jsarch/commit/4b9a56e558e9fe2c748100fa6a04f8af886897c3))
+
+
+### Features
+
+* **summary:** add an auto generated summary at the beginning of architecture.md file ([2195a06](https://github.com/nfroidure/jsarch/commit/2195a06e008dad1b211e2418fc14e200c8d2a890))
+* **summary:** add number to titles ([882ff3a](https://github.com/nfroidure/jsarch/commit/882ff3a70d5868210c538060db5a5921ba913fa7))
+
+
+
 ## [4.0.1](https://github.com/nfroidure/jsarch/compare/v4.0.0...v4.0.1) (2021-04-09)
 
 
