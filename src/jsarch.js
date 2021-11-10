@@ -139,7 +139,7 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
       .sort(compareNotes)
       .reduce((summary, architectureNote) => {
         const titleAnchor =
-          architectureNote.num.replace('.', '') +
+          architectureNote.num.replace(/\./g, '') +
           '-' +
           architectureNote.title.toLowerCase().replace(/ /g, '-');
 
