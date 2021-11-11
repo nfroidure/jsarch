@@ -1,3 +1,12 @@
+## [5.0.1](https://github.com/nfroidure/jsarch/compare/v5.0.0...v5.0.1) (2021-11-11)
+
+
+### Features
+
+* **title-anchor:** correct title anchor computation for level 2+ nested ([092fa1f](https://github.com/nfroidure/jsarch/commit/092fa1f062ea1dfd430f50ee0d2e7d1ff3b7a0e3))
+
+
+
 # [5.0.0](https://github.com/nfroidure/jsarch/compare/v4.0.1...v5.0.0) (2021-10-31)
 
 
