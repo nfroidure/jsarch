@@ -1,9 +1,11 @@
 import { service, name, autoInject } from 'knifecycle';
-import YError from 'yerror';
+import { YError } from 'yerror';
 import path from 'path';
 import { Type, finalize, visit } from 'ast-types';
+import { compareNotes } from './compareNotes.js';
+import type { ParserOptions } from '@babel/parser';
+
 const { def } = Type;
-import { compareNotes } from './compareNotes';
 
 // Temporary fix to make jsarch work
 // on codebases parsed with espree
@@ -17,22 +19,47 @@ def('ExperimentalRestProperty')
   .field('argument', def('Expression'));
 finalize();
 
-export const DEFAULT_CONFIG = {
+export type ParsedNote = {
+  num: string;
+  title: string;
+  content: string;
+  filePath: string;
+  loc: {
+    start: { line: number };
+    end: { line: number };
+  };
+};
+
+export type JSArchConfig = {
+  gitProvider: 'github' | 'bitbucket';
+  parser: string;
+  parserOptions: ParserOptions;
+};
+export type JSArchOptions = {
+  cwd: string;
+  patterns: string[];
+  eol?: string;
+  titleLevel?: string;
+  base: string;
+};
+export type JSArchService = (options: JSArchOptions) => Promise<string>;
+
+export const DEFAULT_CONFIG: JSArchConfig = {
   gitProvider: 'github',
   parser: '@babel/parser',
   parserOptions: {
     attachComment: true,
+    sourceType: 'module',
     loc: true,
     range: true,
     ecmaVersion: 8,
-    sourceType: 'module',
     ecmaFeatures: {
       jsx: false,
       globalReturn: false,
       impliedStrict: false,
       experimentalObjectRestSpread: true,
     },
-  },
+  } as ParserOptions,
 };
 
 const ARCHITECTURE_NOTE_REGEXP =
@@ -100,7 +127,14 @@ export default service(name('jsArch', autoInject(initJSArch)));
  * Logging service
  * @returns {Promise<Function>}
  */
-async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
+async function initJSArch({
+  CONFIG,
+  EOL,
+  glob,
+  fs,
+  parser,
+  log = noop,
+}): Promise<JSArchService> {
   return jsArch;
 
   /**
@@ -123,11 +157,10 @@ async function initJSArch({ CONFIG, EOL, glob, fs, parser, log = noop }) {
   async function jsArch({
     cwd,
     patterns,
-    eol,
+    eol = EOL,
     titleLevel = TITLE_LEVEL,
     base = BASE,
-  }) {
-    eol = eol || EOL;
+  }): Promise<string> {
     const files = await _computePatterns({ glob, log }, cwd, patterns);
     const architectureNotes = _linearize(
       await Promise.all(
@@ -254,8 +287,8 @@ async function _computePatterns({ glob, log }, cwd, patterns) {
           return files;
         } catch (err) {
           log('error', 'Pattern failure:', pattern);
-          log('stack', 'Stack:', err.stack);
-          throw YError.wrap(err, 'E_PATTERN_FAILURE', pattern);
+          log('stack', 'Stack:', (err as Error).stack);
+          throw YError.wrap(err as Error, 'E_PATTERN_FAILURE', pattern);
         }
       }),
     ),
@@ -279,7 +312,7 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
   log('debug', 'Reading file at', filePath);
 
   try {
-    content = await fs.readFileAsync(filePath, 'utf-8');
+    content = await fs.readFile(filePath, 'utf-8');
 
     log('debug', 'File sucessfully read', filePath);
 
@@ -289,13 +322,13 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
     }
   } catch (err) {
     log('error', 'File read failure:', filePath);
-    log('stack', 'Stack:', err.stack);
-    throw YError.wrap(err, 'E_FILE_FAILURE', filePath);
+    log('stack', 'Stack:', (err as Error).stack);
+    throw YError.wrap(err as Error, 'E_FILE_FAILURE', filePath);
   }
 
   try {
     const ast = parser(content);
-    const architectureNotes = [];
+    const architectureNotes: ParsedNote[] = [];
 
     visit(ast, {
       visitComment: function (path) {
@@ -325,8 +358,8 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
     return architectureNotes;
   } catch (err) {
     log('error', 'File parse failure:', filePath);
-    log('stack', 'Stack:', err.stack);
-    throw YError.wrap(err, 'E_FILE_PARSE_FAILURE', filePath);
+    log('stack', 'Stack:', (err as Error).stack);
+    throw YError.wrap(err as Error, 'E_FILE_PARSE_FAILURE', filePath);
   }
 }
 
@@ -334,4 +367,6 @@ function _linearize(bulks) {
   return bulks.reduce((array, arrayBulk) => array.concat(arrayBulk), []);
 }
 
-function noop() {}
+function noop() {
+  return;
+}

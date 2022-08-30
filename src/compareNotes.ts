@@ -1,3 +1,5 @@
+import type { ParsedNote } from './jsarch.js';
+
 /* Architecture Note #1.2: Ordering
 
 To order architecture notes in a meaningful way we
@@ -12,7 +14,10 @@ A sample tree structure could be:
 - 3
 
 */
-export function compareNotes(aNote, bNote) {
+export function compareNotes(
+  aNote: Pick<ParsedNote, 'num'>,
+  bNote: Pick<ParsedNote, 'num'>,
+): number {
   const aNoteLevels = aNote.num.split('.').map((n) => parseInt(n, 10));
   const bNoteLevels = bNote.num.split('.').map((n) => parseInt(n, 10));
   const levelsDepth = Math.max(aNoteLevels.length, bNoteLevels.length);

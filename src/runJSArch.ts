@@ -8,7 +8,8 @@ To see its options, run:
 jsarch -h
 ```
 */
-import Knifecycle, {
+import {
+  Knifecycle,
   constant,
   name,
   service,
@@ -16,23 +17,32 @@ import Knifecycle, {
   autoService,
 } from 'knifecycle';
 import initDebug from 'debug';
-import initParser from './parser';
+import initParser from './parser.js';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
 import glob from 'glob';
-import program from 'commander';
-import Promise from 'bluebird';
+import { createCommand } from 'commander';
+import { promisify } from 'util';
 import deepExtend from 'deep-extend';
-import packagerc from 'packagerc';
-import pkgDir from 'pkg-dir';
+import rc from 'rc';
+import { packageDirectory } from 'pkg-dir';
+import initJSArch, { DEFAULT_CONFIG } from './jsarch.js';
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+import type { Command } from 'commander';
+import type { JSArchService } from './jsarch.js';
 
-import initJSArch, { DEFAULT_CONFIG } from './jsarch';
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 export default async function runJSArch() {
   try {
     const $ = await prepareJSArch();
-    const { ENV, jsArch, program } = await $.run(['ENV', 'jsArch', 'program']);
+    const { ENV, jsArch, program } = await $.run<{
+      ENV: typeof process.env;
+      jsArch: JSArchService;
+      program: Command;
+    }>(['ENV', 'jsArch', 'program']);
 
     if (ENV.MERMAID_RUN) {
       const JSARCH_REG_EXP = /^jsArch$/;
@@ -74,7 +84,7 @@ export default async function runJSArch() {
     const content = await jsArch({
       patterns: program.args,
       cwd: process.cwd(),
-      base: program.base,
+      base: program.opts().base as string,
     });
     process.stdout.write(content);
   } catch (err) {
@@ -89,7 +99,7 @@ async function prepareJSArch($ = new Knifecycle()) {
 
   $.register(
     autoService(async function initProgram({ packageConf }) {
-      return program
+      return createCommand()
         .version(packageConf.version)
         .option('-b, --base [value]', 'Base for links')
         .parse(process.argv);
@@ -99,16 +109,20 @@ async function prepareJSArch($ = new Knifecycle()) {
   $.register(
     constant(
       'packageConf',
-      require(path.join(__dirname, '..', 'package.json')),
+      JSON.parse(
+        (
+          await fs.promises.readFile(path.join(__dirname, '..', 'package.json'))
+        ).toString(),
+      ),
     ),
   );
-  $.register(constant('fs', Promise.promisifyAll(fs)));
+  $.register(constant('fs', fs.promises));
   $.register(constant('EOL', os.EOL));
   $.register(constant('ENV', process.env));
   $.register(
     name(
       'PROJECT_DIR',
-      service(async () => pkgDir()),
+      service(async () => packageDirectory()),
     ),
   );
   $.register(
@@ -116,19 +130,23 @@ async function prepareJSArch($ = new Knifecycle()) {
       'CONFIG',
       service(
         autoInject(async function initConfig({ PROJECT_DIR }) {
-          const packageJSON = require(path.join(PROJECT_DIR, 'package.json'));
-          const baseConfig = packageJSON.jsarch || DEFAULT_CONFIG;
+          const packageJSON = JSON.parse(
+            (
+              await fs.promises.readFile(path.join(PROJECT_DIR, 'package.json'))
+            ).toString(),
+          );
+          const baseConfig = deepExtend(
+            {},
+            packageJSON.jsarch || {},
+            DEFAULT_CONFIG,
+          );
 
-          if (packageJSON.jsarch) {
-            deepExtend(packageJSON.jsarch, DEFAULT_CONFIG);
-          }
-
-          return packagerc('jsarch', baseConfig);
+          return rc('jsarch', baseConfig);
         }),
       ),
     ),
   );
-  $.register(constant('glob', Promise.promisify(glob)));
+  $.register(constant('glob', promisify(glob)));
   $.register(
     constant('log', (type, ...args) => {
       if ('debug' === type || 'stack' === type) {

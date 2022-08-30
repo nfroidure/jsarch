@@ -1,5 +1,5 @@
 #! /usr/bin/env node
 
-const runJSArch = require('../dist/runJSArch').default;
+import runJSArch from '../dist/runJSArch.js';
 
 runJSArch();
