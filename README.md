@@ -109,7 +109,7 @@ Compile an run a template
 
 # Authors
 - [Nicolas Froidure](http://insertafter.com/en/index.html)
-- [Antoine Demon-Chaine](https://github.com/antoinedmc)
+
 
 # License
 [MIT](https://github.com/nfroidure/jsarch/blob/master/LICENSE)

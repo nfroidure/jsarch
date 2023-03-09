@@ -23,7 +23,6 @@ import os from 'os';
 import path from 'path';
 import glob from 'glob';
 import { createCommand } from 'commander';
-import { promisify } from 'util';
 import deepExtend from 'deep-extend';
 import rc from 'rc';
 import { packageDirectory } from 'pkg-dir';
@@ -146,7 +145,7 @@ async function prepareJSArch($ = new Knifecycle()) {
       ),
     ),
   );
-  $.register(constant('glob', promisify(glob)));
+  $.register(constant('glob', glob));
   $.register(
     constant('log', (type, ...args) => {
       if ('debug' === type || 'stack' === type) {

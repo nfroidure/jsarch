@@ -9,7 +9,7 @@ import {
 import { Knifecycle, constant } from 'knifecycle';
 import initJSArch, { DEFAULT_CONFIG } from './jsarch.js';
 import initParser from './parser.js';
-import type Glob from 'glob';
+import _glob from 'glob';
 import fs from 'fs';
 
 const JSARCH_PREFIX = `[//]: # ( )
@@ -21,7 +21,7 @@ const JSARCH_PREFIX = `[//]: # ( )
 
 describe('jsArch service', () => {
   const log = jest.fn();
-  const glob = jest.fn<Glob>();
+  const glob = jest.fn<typeof _glob>();
   const readFile = jest.fn<typeof fs.promises.readFile>();
   let $;
 
