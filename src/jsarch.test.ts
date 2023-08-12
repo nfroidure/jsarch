@@ -9,7 +9,7 @@ import {
 import { Knifecycle, constant } from 'knifecycle';
 import initJSArch, { DEFAULT_CONFIG } from './jsarch.js';
 import initParser from './parser.js';
-import _glob from 'glob';
+import { glob as _glob } from 'glob';
 import fs from 'fs';
 
 const JSARCH_PREFIX = `[//]: # ( )

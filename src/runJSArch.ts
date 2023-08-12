@@ -21,7 +21,7 @@ import initParser from './parser.js';
 import fs from 'fs';
 import os from 'os';
 import path from 'path';
-import glob from 'glob';
+import { glob } from 'glob';
 import { createCommand } from 'commander';
 import deepExtend from 'deep-extend';
 import rc from 'rc';
@@ -147,12 +147,12 @@ async function prepareJSArch($ = new Knifecycle()) {
   );
   $.register(constant('glob', glob));
   $.register(
-    constant('log', (type, ...args) => {
+    constant('log', (type: string, ...args: string[]) => {
       if ('debug' === type || 'stack' === type) {
-        debug(...args);
+        debug(args[0], ...args.slice(1));
         return;
       }
-      console[type](...args); // eslint-disable-line
+      console[type](...args);
     }),
   );
   $.register(initJSArch);
