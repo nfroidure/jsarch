@@ -25,7 +25,7 @@
     }
   },
   "name": "jsarch",
-  "version": "6.0.3",
+  "version": "6.0.4",
   "description": "A simple module to extract architecture notes from your code.",
   "main": "dist/index.js",
   "type": "module",
