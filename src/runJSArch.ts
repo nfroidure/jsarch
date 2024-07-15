@@ -87,7 +87,6 @@ export default async function runJSArch() {
     });
     process.stdout.write(content);
   } catch (err) {
-    // eslint-disable-next-line
     console.error(err);
     process.exit(1);
   }

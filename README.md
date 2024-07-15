@@ -8,7 +8,6 @@
 > A simple module to extract architecture notes from your code.
 
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/nfroidure/jsarch/blob/main/LICENSE)
-[![Coverage Status](https://coveralls.io/repos/github/nfroidure/jsarch/badge.svg?branch=main)](https://coveralls.io/github/nfroidure/jsarch?branch=main)
 
 
 [//]: # (::contents:start)
