@@ -48,9 +48,9 @@ export default async function runJSArch() {
       const CONFIG_REG_EXP = /^([A-Z0-9_]+)$/;
       const MERMAID_GRAPH_CONFIG = {
         classes: {
-          jsarch: 'fill:#e7cdd2,stroke:#ebd4cb,stroke-width:1px;',
-          config: 'fill:#d4cdcc,stroke:#ebd4cb,stroke-width:1px;',
-          others: 'fill:#ebd4cb,stroke:#000,stroke-width:1px;',
+          jsarch: 'fill:#e7cdd2,stroke:#ebd4cb,stroke-width:1px,color:#000;',
+          config: 'fill:#d4cdcc,stroke:#ebd4cb,stroke-width:1px,color:#000;',
+          others: 'fill:#ebd4cb,stroke:#000,stroke-width:1px,color:#000;',
         },
         styles: [
           {

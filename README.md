@@ -46,7 +46,7 @@ of GitHub, just add this:
 Per default, the Babel parser is used, but you can change it with the `parser`
 option. You'll have to install it before using it.
 
-## Develoment
+## Development
 
 To get involved into this module's development:
 ```sh

@@ -25,7 +25,7 @@ This service needs some other services. To be able to mock and
  [Knifecycle](https://github.com/nfroidure/knifecycle) for its
  dependency injection and inversion of control feature.
 
-![Dependencies Graph](./DEPENDENCIES.mmd.png)
+![Dependencies Graph](./DEPENDENCIES.mmd.svg)
 
 [See in context](./src/jsarch.ts#L98-L109)
 
