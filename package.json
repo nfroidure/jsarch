@@ -67,13 +67,13 @@
     "jsarch": "bin/jsarch.js"
   },
   "dependencies": {
-    "@babel/parser": "^7.26.1",
+    "@babel/parser": "^7.26.2",
     "ast-types": "^0.16.1",
     "commander": "^12.1.0",
     "debug": "^4.3.7",
     "deep-extend": "^0.6.0",
     "glob": "^11.0.0",
-    "knifecycle": "^17.0.3",
+    "knifecycle": "^18.0.0",
     "pkg-dir": "^8.0.0",
     "rc": "^1.2.8",
     "yerror": "^8.0.0"
