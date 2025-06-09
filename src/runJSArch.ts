@@ -99,6 +99,7 @@ async function prepareJSArch($ = new Knifecycle()) {
     autoService(async function initProgram({ packageConf }) {
       return createCommand()
         .version(packageConf.version)
+        .argument('[files...]', 'Files to process')
         .option('-b, --base [value]', 'Base for links')
         .parse(process.argv);
     }),
