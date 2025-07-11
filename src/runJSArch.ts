@@ -25,7 +25,7 @@ import { glob } from 'glob';
 import { createCommand } from 'commander';
 import deepExtend from 'deep-extend';
 import rc from 'rc';
-import { packageDirectory } from 'pkg-dir';
+import { packageDirectory } from 'package-directory';
 import initJSArch, { DEFAULT_CONFIG } from './jsarch.js';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
