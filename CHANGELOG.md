@@ -1,3 +1,7 @@
+## [6.2.2](https://github.com/nfroidure/jsarch/compare/v6.2.1...v6.2.2) (2025-11-06)
+
+
+
 ## [6.2.1](https://github.com/nfroidure/jsarch/compare/v6.2.0...v6.2.1) (2025-07-11)
 
 
