@@ -1,9 +1,13 @@
-import { service, name, autoInject } from 'knifecycle';
-import { YError } from 'yerror';
-import path from 'path';
+import { service, name, autoInject, location } from 'knifecycle';
+import { printStackTrace, YError } from 'yerror';
+import { relative, basename } from 'path';
 import { Type, finalize, visit } from 'ast-types';
-import { compareNotes } from './compareNotes.js';
-import type { ParserOptions } from '@babel/parser';
+import { compareNotes } from '../utils/compareNotes.js';
+import { type GlobService } from './glob.js';
+import { type Parser } from './parser.js';
+import { type FSService } from './fs.js';
+import { noop, type LogService } from 'common-services';
+import { type JSArchConfig } from './CONFIG.js';
 
 const { def } = Type;
 
@@ -19,48 +23,25 @@ def('ExperimentalRestProperty')
   .field('argument', def('Expression'));
 finalize();
 
-export type ParsedNote = {
+export interface ParsedNote {
   num: string;
   title: string;
   content: string;
   filePath: string;
   loc: {
-    start: { line: number };
-    end: { line: number };
+    start: { line: number; column: number };
+    end: { line: number; column: number };
   };
-};
+}
 
-export type JSArchConfig = {
-  gitProvider: 'github' | 'bitbucket';
-  parser: string;
-  parserOptions: ParserOptions;
-};
-export type JSArchOptions = {
+export interface JSArchOptions {
   cwd: string;
   patterns: string[];
   eol?: string;
   titleLevel?: string;
   base: string;
-};
+}
 export type JSArchService = (options: JSArchOptions) => Promise<string>;
-
-export const DEFAULT_CONFIG: JSArchConfig = {
-  gitProvider: 'github',
-  parser: '@babel/parser',
-  parserOptions: {
-    attachComment: true,
-    sourceType: 'module',
-    loc: true,
-    range: true,
-    ecmaVersion: 8,
-    ecmaFeatures: {
-      jsx: false,
-      globalReturn: false,
-      impliedStrict: false,
-      experimentalObjectRestSpread: true,
-    },
-  } as ParserOptions,
-};
 
 const ARCHITECTURE_NOTE_REGEXP =
   /^\s*Architecture Note #((?:\d+(?:\.(?=\d)|)){1,8}):\s+([^\r\n]*|$)/;
@@ -95,20 +76,6 @@ To override it, use the `base` option.
 */
 const BASE = '.';
 
-/* Architecture Note #1: jsArch service
-
-JSArch is basically a service that exposes a function allowing
- to extract and output architecture notes from the code.
-
-This service needs some other services. To be able to mock and
- interchange them, we use
- [Knifecycle](https://github.com/nfroidure/knifecycle) for its
- dependency injection and inversion of control feature.
-
-![Dependencies Graph](./DEPENDENCIES.mmd.svg)
-*/
-export default service(name('jsArch', autoInject(initJSArch)));
-
 /**
  * Declare jsArch in the dependency injection system
  * @param {Object}   services
@@ -134,9 +101,14 @@ async function initJSArch({
   fs,
   parser,
   log = noop,
+}: {
+  CONFIG: JSArchConfig;
+  EOL: string;
+  glob: GlobService;
+  fs: FSService;
+  parser: Parser;
+  log: LogService;
 }): Promise<JSArchService> {
-  return jsArch;
-
   /**
    * Compile an run a template
    * @param {Object}   options
@@ -160,13 +132,15 @@ async function initJSArch({
     eol = EOL,
     titleLevel = TITLE_LEVEL,
     base = BASE,
-  }): Promise<string> {
+  }: JSArchOptions): Promise<string> {
     const files = await _computePatterns({ glob, log }, cwd, patterns);
-    const architectureNotes = _linearize(
-      await Promise.all(
-        files.map(_extractArchitectureNotes.bind(null, { parser, fs, log })),
-      ),
-    );
+    const architectureNotes: ParsedNote[] = [];
+
+    for (const file of files) {
+      architectureNotes.push(
+        ...(await _extractArchitectureNotes({ parser, fs, log }, file)),
+      );
+    }
 
     const summary = architectureNotes
       .sort(compareNotes)
@@ -210,7 +184,7 @@ async function initJSArch({
         if (CONFIG.gitProvider.toLowerCase() === 'bitbucket') {
           linesLink =
             '#' +
-            path.basename(architectureNote.filePath) +
+            basename(architectureNote.filePath) +
             '-' +
             architectureNote.loc.start.line +
             ':' +
@@ -243,7 +217,7 @@ async function initJSArch({
           '[See in context](' +
           base +
           '/' +
-          path.relative(cwd, architectureNote.filePath) +
+          relative(cwd, architectureNote.filePath) +
           linesLink +
           ')' +
           eol +
@@ -267,32 +241,39 @@ async function initJSArch({
     }
     return content;
   }
+
+  return jsArch;
 }
 
-async function _computePatterns({ glob, log }, cwd, patterns) {
-  return _linearize(
-    await Promise.all(
-      patterns.map(async (pattern) => {
-        log('debug', 'Processing pattern:', pattern);
-        try {
-          const files = await glob(pattern, {
-            cwd,
-            dot: true,
-            nodir: true,
-            absolute: true,
-          });
+async function _computePatterns(
+  { glob, log }: { glob: GlobService; log: LogService },
+  cwd: string,
+  patterns: string[],
+): Promise<string[]> {
+  const files: string[] = [];
 
-          log('debug', 'Pattern sucessfully resolved', pattern);
-          log('debug', 'Files:', files);
-          return files;
-        } catch (err) {
-          log('error', 'Pattern failure:', pattern);
-          log('stack', 'Stack:', (err as Error).stack);
-          throw YError.wrap(err as Error, 'E_PATTERN_FAILURE', pattern);
-        }
-      }),
-    ),
-  );
+  for (const pattern of patterns) {
+    log('debug', '♻️ - Processing pattern:', pattern);
+
+    try {
+      const resultFiles = await glob(pattern, {
+        cwd,
+        dot: true,
+        nodir: true,
+        absolute: true,
+      });
+
+      log('debug', '✅ - Pattern successfully resolved', pattern);
+      log('debug', '➕ - Files:', resultFiles);
+      files.push(...resultFiles);
+    } catch (err) {
+      log('error', 'Pattern failure:', pattern);
+      log('error-stack', printStackTrace(err as Error));
+      throw YError.wrap(err as Error, 'E_PATTERN_FAILURE', [pattern]);
+    }
+  }
+
+  return files;
 }
 
 /* Architecture Note #1.1: Extraction
@@ -306,24 +287,35 @@ architecture notes. It should be structured like that:
 {body}
 ```
 */
-async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
+async function _extractArchitectureNotes(
+  {
+    parser,
+    fs,
+    log,
+  }: {
+    parser: Parser;
+    fs: FSService;
+    log: LogService;
+  },
+  filePath: string,
+) {
   let content;
 
   log('debug', 'Reading file at', filePath);
 
   try {
-    content = await fs.readFile(filePath, 'utf-8');
+    content = (await fs.readFileAsync(filePath)).toString();
 
-    log('debug', 'File sucessfully read', filePath);
+    log('debug', '✅ - File sucessfully read', filePath);
 
     if (SHEBANG_REGEXP.test(content)) {
-      log('debug', 'Found a shebang, commenting it', filePath);
+      log('debug', '➕ - Found a shebang, commenting it', filePath);
       content = '// Shebang commented by jsarch: ' + content;
     }
   } catch (err) {
-    log('error', 'File read failure:', filePath);
-    log('stack', 'Stack:', (err as Error).stack);
-    throw YError.wrap(err as Error, 'E_FILE_FAILURE', filePath);
+    log('error', '💥 - File read failure:', filePath);
+    log('error-stack', printStackTrace(err as Error));
+    throw YError.wrap(err as Error, 'E_FILE_FAILURE', [filePath]);
   }
 
   try {
@@ -348,7 +340,7 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
       },
     });
 
-    log('debug', 'File sucessfully processed', path);
+    log('debug', '✅ - File successfully processed', filePath);
     log(
       'debug',
       'Architecture notes found:',
@@ -358,15 +350,24 @@ async function _extractArchitectureNotes({ parser, fs, log }, filePath) {
     return architectureNotes;
   } catch (err) {
     log('error', 'File parse failure:', filePath);
-    log('stack', 'Stack:', (err as Error).stack);
-    throw YError.wrap(err as Error, 'E_FILE_PARSE_FAILURE', filePath);
+    log('error-stack', printStackTrace(err as Error));
+    throw YError.wrap(err as Error, 'E_FILE_PARSE_FAILURE', [filePath]);
   }
 }
 
-function _linearize(bulks) {
-  return bulks.reduce((array, arrayBulk) => array.concat(arrayBulk), []);
-}
+/* Architecture Note #1: jsArch service
 
-function noop() {
-  return;
-}
+JSArch is basically a service that exposes a function allowing
+ to extract and output architecture notes from the code.
+
+This service needs some other services. To be able to mock and
+ interchange them, we use
+ [Knifecycle](https://github.com/nfroidure/knifecycle) for its
+ dependency injection and inversion of control feature.
+
+![Dependencies Graph](./DEPENDENCIES.mmd.svg)
+*/
+export default location(
+  service(name('jsArch', autoInject(initJSArch))),
+  import.meta.url,
+);

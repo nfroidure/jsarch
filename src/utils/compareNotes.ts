@@ -1,4 +1,4 @@
-import type { ParsedNote } from './jsarch.js';
+import {type  ParsedNote } from '../services/jsarch.js';
 
 /* Architecture Note #1.2: Ordering
 

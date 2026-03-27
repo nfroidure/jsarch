@@ -59,7 +59,7 @@ cd jsarch
 npm it
 npm run build
 
-node bin/jsarch **/*.js > ARCHITECTURE.md
+node bin/jsarch src/**/*.ts > ARCHITECTURE.md
 ```
 
 ## Architecture Notes
