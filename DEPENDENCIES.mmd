@@ -1,7 +1,15 @@
 graph TD
-  program-->packageConf
+  programOptions-->packageJSON
   parser-->CONFIG{CONFIG}
-  CONFIG{CONFIG}-->PROJECT_DIR{PROJECT_DIR}
+  parser-->importer
+  PROJECT_DIR{PROJECT_DIR}-->log
+  importer-->log
+  CONFIG{CONFIG}-->packageJSON
+  fs-->programOptions
+  fs-->log
+  log-->LOG_CONFIG{LOG_CONFIG}
+  log-->LOG_ROUTING{LOG_ROUTING}
+  log-->logger
   jsArch((jsArch))-->CONFIG{CONFIG}
   jsArch((jsArch))-->EOL{EOL}
   jsArch((jsArch))-->glob
@@ -11,13 +19,17 @@ graph TD
   classDef jsarch fill:#e7cdd2,stroke:#ebd4cb,stroke-width:1px,color:#000;
   classDef config fill:#d4cdcc,stroke:#ebd4cb,stroke-width:1px,color:#000;
   classDef others fill:#ebd4cb,stroke:#000,stroke-width:1px,color:#000;
-  class program others;
-  class packageConf others;
+  class programOptions others;
+  class packageJSON others;
   class CONFIG config;
   class parser others;
+  class importer others;
   class PROJECT_DIR config;
+  class log others;
+  class fs others;
+  class LOG_CONFIG config;
+  class LOG_ROUTING config;
+  class logger others;
   class jsArch jsarch;
   class EOL config;
   class glob others;
-  class fs others;
-  class log others;
