@@ -97,9 +97,7 @@ console.log('test');
       base: './blob/master',
       cwd: '/home/me/project',
     });
-    expect(readFileAsync.mock.calls).toEqual([
-      ['/home/me/project/kikoo.js'],
-    ]);
+    expect(readFileAsync.mock.calls).toEqual([['/home/me/project/kikoo.js']]);
     expect(content).toEqual(
       `${JSARCH_PREFIX}# Architecture Notes
 
@@ -140,9 +138,7 @@ console.log('test');
       base: './blob/master',
       cwd: '/home/me/project',
     });
-    expect(readFileAsync.mock.calls).toEqual([
-      ['/home/me/project/kikoo.js'],
-    ]);
+    expect(readFileAsync.mock.calls).toEqual([['/home/me/project/kikoo.js']]);
     expect(content).toEqual(
       `${JSARCH_PREFIX}# Architecture Notes
 
@@ -196,9 +192,7 @@ console.log('test');
       base: './blob/master',
       cwd: '/home/me/project',
     });
-    expect(readFileAsync.mock.calls).toEqual([
-      ['/home/me/project/kikoo.js'],
-    ]);
+    expect(readFileAsync.mock.calls).toEqual([['/home/me/project/kikoo.js']]);
     expect(content).toEqual(
       `${JSARCH_PREFIX}# Architecture Notes
 
@@ -246,9 +240,7 @@ console.log('test');
       base: './blob/master',
       cwd: '/home/me/project',
     });
-    expect(readFileAsync.mock.calls).toEqual([
-      ['/home/me/project/kikoo.js'],
-    ]);
+    expect(readFileAsync.mock.calls).toEqual([['/home/me/project/kikoo.js']]);
     expect(content).toEqual(
       `${JSARCH_PREFIX}# Architecture Notes
 
@@ -290,9 +282,7 @@ console.log('test');
       base: './blob/master',
       cwd: '/home/me/project',
     });
-    expect(readFileAsync.mock.calls).toEqual([
-      ['/home/me/project/kikoo.js'],
-    ]);
+    expect(readFileAsync.mock.calls).toEqual([['/home/me/project/kikoo.js']]);
     expect(content).toEqual(
       `${JSARCH_PREFIX}# Architecture Notes
 

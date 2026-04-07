@@ -7,85 +7,7 @@
 
 ## Summary
 
-1. [jsArch service](#1-jsarch-service)
-   1. [Extraction](#11-extraction)
-   2. [Ordering](#12-ordering)
-   3. [Title level](#13-title-level)
-   4. [Base](#14-base)
 2. [CLI](#2-cli)
-
-
-## 1. jsArch service
-
-JSArch is basically a service that exposes a function allowing
- to extract and output architecture notes from the code.
-
-This service needs some other services. To be able to mock and
- interchange them, we use
- [Knifecycle](https://github.com/nfroidure/knifecycle) for its
- dependency injection and inversion of control feature.
-
-![Dependencies Graph](./DEPENDENCIES.mmd.svg)
-
-[See in context](./dist/services/jsarch.js#L251-L262)
-
-
-
-### 1.1. Extraction
-
-We use AST parsing and visiting to retrieve well formed
-architecture notes. It should be structured like that:
-```js
-
-/** Architecture Note #{order}: {title}
-
-{body}
-```
-
-[See in context](./dist/services/jsarch.js#L195-L205)
-
-
-
-### 1.2. Ordering
-
-To order architecture notes in a meaningful way we
- use title hierarchy like we used too at school with
- argumentative texts ;).
-
-A sample tree structure could be:
-- 1
-- 1.1
-- 1.2
-- 2
-- 3
-
-[See in context](./dist/utils/compareNotes.js#L1-L14)
-
-
-
-### 1.3. Title level
-
-By default, titles will be added like if the architecture
- notes were in a single separated file.
-
-If you wish to add the architecture notes in a README.md file
- you will have to set the `titleLevel` option to as much `#`
- as necessar to fit the title hierarchy of you README file.
-
-[See in context](./dist/services/jsarch.js#L28-L36)
-
-
-
-### 1.4. Base
-
-By default, links to the architecture notes right in the code
- are supposed relative to the README.md file like you would
- find it in the GitHub homepage of you projects.
-
-To override it, use the `base` option.
-
-[See in context](./dist/services/jsarch.js#L38-L46)
-
 
 
 ## 2. CLI
@@ -98,5 +20,5 @@ To see its options, run:
 jsarch -h
 ```
 
-[See in context](./dist/index.js#L1-L10)
+[See in context](./src/index.ts#L1-L10)
 
