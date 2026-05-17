@@ -52,6 +52,7 @@ export const JSARCH_PREFIX = `[//]: # ( )
 [//]: # (module. Do not change it elsewhere, changes would)
 [//]: # (be overridden.)
 [//]: # ( )
+
 `;
 
 /* Architecture Note #1.3: Title level

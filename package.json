@@ -31,7 +31,7 @@
   "type": "module",
   "types": "dist/index.d.ts",
   "scripts": {
-    "architecture": "node bin/jsarch.js src/*.ts > ARCHITECTURE.md",
+    "architecture": "node bin/jsarch.js 'src/**/*.ts' > ARCHITECTURE.md",
     "build": "rimraf 'dist' && tsc --outDir dist",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md",
     "cli": "env NODE_ENV=${NODE_ENV:-cli}",
