@@ -1,3 +1,10 @@
+## [7.1.2](https://github.com/nfroidure/jsarch/compare/v7.1.1...v7.1.2) (2026-05-17)
+
+
+### Bug Fixes
+
+* various typo fix ([f71b8eb](https://github.com/nfroidure/jsarch/commit/f71b8eb0b997342342044ccc2adc51e69121ad9b))
+
 ## [7.1.1](https://github.com/nfroidure/jsarch/compare/v7.1.0...v7.1.1) (2026-04-17)
 
 # [7.1.0](https://github.com/nfroidure/jsarch/compare/v7.0.0...v7.1.0) (2026-04-07)
