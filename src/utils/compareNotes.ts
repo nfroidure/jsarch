@@ -23,7 +23,7 @@ export function compareNotes(
   const levelsDepth = Math.max(aNoteLevels.length, bNoteLevels.length);
   let result = 0;
 
-  result = new Array(levelsDepth).fill('').reduce((result, unused, index) => {
+  result = new Array(levelsDepth).fill('').reduce((result, _unused, index) => {
     if (0 !== result) {
       return result;
     } else if ('undefined' === typeof aNoteLevels[index]) {
