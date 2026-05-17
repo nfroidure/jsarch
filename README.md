@@ -102,7 +102,7 @@ Compile an run a template
 | options.cwd | <code>Object</code> | Current working directory |
 | options.patterns | <code>Object</code> | Patterns to look files for (see node-glob) |
 | options.eol | <code>Object</code> | End of line character (default to the OS one) |
-| options.titleLevel | <code>Object</code> | The base title level of the output makdown document |
+| options.titleLevel | <code>Object</code> | The base title level of the output markdown document |
 | options.base | <code>Object</code> | The base directory for the ARCHITECTURE.md references |
 
 
